@@ -31,5 +31,5 @@ app.use("/api/v1", userRoutes)
 
 app.use("/api/v1", guardRoutes)
 
-app.listen(5300,()=>console.log("App listening 5300"))
+app.listen(3000,()=>console.log("App listening 5300"))
 

@@ -4,7 +4,7 @@ const GetAllUsers = async (req, res) => {
     try 
     {
 
-        const query = "SELECT * FROM customers"
+        const query = "SELECT * FROM User"
         const data = await executeQuery(query)
 
         if(data.length === 0)
@@ -30,8 +30,7 @@ const GetAllUsers = async (req, res) => {
             {
                 success:false,
                 data: null,
-                message: "Серверийн алдаа та дахин оролдоно уу",
-                error: err
+                message: "Серверийн алдаа та дахин оролдоно уу"
             }
         )
     }

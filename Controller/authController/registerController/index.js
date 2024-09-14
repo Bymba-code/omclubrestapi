@@ -5,17 +5,8 @@ const registerController = async (req, res) =>
     {
         try 
         {
-            const {user_id, username, password, firstName, lastName, register,phoneNumber, role,create_date} = req.body;
-            if(!user_id)
-            {
-                return res.status(403).json(
-                    {
-                        success:false,
-                        data: null,
-                        message: "Ажилтанд өгөх ID хоосон байна"
-                    }
-                )
-            }
+            const {username, password, firstName, lastName, register,phoneNumber, role,create_date} = req.body;
+
             if(!username)
                 {
                     return res.status(403).json(
@@ -26,9 +17,24 @@ const registerController = async (req, res) =>
                         }
                     )
                 }
+
+            const checkQuery = "SELECT * FROM customers WHERE username = ?"
+            const checkdata = await executeQuery(checkQuery)
+            
+            if(checkdata.length > 0)
+            {
+                return res.status(403).json(
+                    {
+                        success:false,
+                        data: null,
+                        message: "Ажилтаны нэр бүртгэгдсэн байна"
+                    }
+                )
+            }
+
             if(!password)
                 {
-                    return res.status(403).json(
+                    return res.status(402).json(
                         {
                             success:false,
                             data: null,
@@ -89,7 +95,7 @@ const registerController = async (req, res) =>
                 create_date
             ]
 
-            const query = "INSERT INTO Users (user_id,username,password,firstName,lastName,register,phoneNumber, role ,create_date) VALUES (?)"
+            const query = "INSERT INTO Users (username,password,firstName,lastName,register,phoneNumber, role ,create_date) VALUES (?)"
             
             const data = await executeQuery(query, [values])
 

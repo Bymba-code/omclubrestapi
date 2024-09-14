@@ -3,10 +3,10 @@ const { executeQuery } = require("../../../DB/index")
 const CustomersController = async (req, res) => {
     try 
     {
-        const {user_id} = req.params;
+        const {id} = req.params;
 
-        const query = "SELECT * FROM customers WHERE user_id = ?"
-        const data = await executeQuery(query, [user_id])
+        const query = "SELECT * FROM customers WHERE invited = ?"
+        const data = await executeQuery(query, [id])
 
         if(data.length === 0)
             {

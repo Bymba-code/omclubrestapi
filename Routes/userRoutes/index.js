@@ -1,15 +1,14 @@
 const express = require("express")
-const CustomersController = require("../../Controller/userController/Customers")
-const Invite = require("../../Controller/userController/invite")
+const GetItems = require("../../Controller/customerController/GET_ALL")
+const userItem = require("../../Controller/customerController/CUSTOMERS")
+const Temtseen = require("../../Controller/userController/temtseen")
 
 
 const router = express.Router()
 
+router.route("/guard/:id").get(GetItems)
 
-router.route("/user/customers/:user_id").get(CustomersController)
+router.route("/customers/:id").get(userItem)
 
-router.route("/user/invite").post(Invite)
-
-
+router.route("/customers/champion").get(Temtseen)
 module.exports = router
-

@@ -4,7 +4,7 @@ const customerControllerGuard = async (req, res) => {
     try 
     {
 
-        const query = "SELECT * FROM customers WHERE DATE(create_date) = curdate()"
+        const query = "SELECT * FROM customers WHERE DATE(create_date) = CURDATE() + INTERVAL 1 DAY"
         const data = await executeQuery(query)
 
         if(data.length === 0)

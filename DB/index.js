@@ -1,14 +1,11 @@
-const mysql = require("mysql")
-
+const mysql = require("mysql2");
 const db = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    database: "club",
-    password: "",
-    connectionLimit:5
-    
-})
-
+    host: "103.50.206.175",
+    user: "admin",
+    database: "clubApp",
+    password: "Jijgee030712@",
+    connectionLimit: 5
+});
 const executeQuery = (sql, params) => {
     return new Promise((resolve, reject) => {
         db.query(sql, params, (err, results) => {
@@ -19,7 +16,6 @@ const executeQuery = (sql, params) => {
         });
     });
 };
-
 const checkConnection = () => {
     return new Promise((resolve, reject) => {
         db.query('SELECT 1', (err, results) => {
@@ -32,9 +28,7 @@ const checkConnection = () => {
         });
     });
 };
-
-module.exports = 
-{
+module.exports = {
     executeQuery,
     checkConnection
-}
+};

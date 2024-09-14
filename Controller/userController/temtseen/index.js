@@ -1,4 +1,3 @@
-
 const { executeQuery } = require("../../../DB/index")
 
 const Temtseen = async (req, res) => {
@@ -8,15 +7,9 @@ const Temtseen = async (req, res) => {
         const query = "SELECT * FROM champion"
         const data = await executeQuery(query)
 
-        if(data.length === 0)
-            {
-                return res.status(403).json({
-                    success:false,
-                    data: null,
-                    message: "Амжилтгүй"
-                })
-            }
-            return res.status(200).json(
+        if (data.length === 0) { return res.status(404).json({ success: false, data: null, message: "Амжилтгүй" }); }
+
+        else return res.status(200).json(
                 {
                     success: true,
                     data:data,

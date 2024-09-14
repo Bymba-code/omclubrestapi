@@ -84,7 +84,6 @@ const registerController = async (req, res) =>
             const hashedPassword = bcrypt.hashSync(password,salt)
 
             const values = [
-                user_id,
                 username,
                 hashedPassword,
                 firstName,

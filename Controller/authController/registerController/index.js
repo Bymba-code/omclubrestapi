@@ -5,7 +5,7 @@ const registerController = async (req, res) =>
     {
         try 
         {
-            const {user_id, username, password, firstName, lastName, role} = req.body;
+            const {user_id, username, password, firstName, lastName, register,phoneNumber, role,create_date} = req.body;
             if(!user_id)
             {
                 return res.status(403).json(
@@ -66,6 +66,13 @@ const registerController = async (req, res) =>
                         }
                     )
                 }
+            if(register)
+            {
+                return res.status(403).json({
+                    success:false,
+                    data: null,
+                    message:"Ажилтний регистрийн дугаарыг оруулна уу"                })
+            }
             
             const salt = 10;
             const hashedPassword = bcrypt.hashSync(password,salt)
@@ -76,10 +83,13 @@ const registerController = async (req, res) =>
                 hashedPassword,
                 firstName,
                 lastName,
-                role
+                register,
+                phoneNumber,
+                role,
+                create_date
             ]
 
-            const query = "INSERT INTO users (user_id,username,password,firstName,lastName,role) VALUES (?)"
+            const query = "INSERT INTO Users (user_id,username,password,firstName,lastName,register,phoneNumber, role ,create_date) VALUES (?)"
             
             const data = await executeQuery(query, [values])
 

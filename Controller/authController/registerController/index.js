@@ -22,8 +22,8 @@ const registerController = async (req, res) => {
             });
         }
         const checkQuery = "SELECT * FROM Users WHERE username = ?";
-        const [checkdata] = await executeQuery(checkQuery, [username]);
-        if (checkdata) {
+        const checkdata = await executeQuery(checkQuery, [username]);
+        if (checkdata.length > 0) {
             return res.status(403).json({
                 success: false,
                 data: null,

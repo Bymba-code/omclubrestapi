@@ -4,7 +4,7 @@ const registerController = require("../../Controller/authController/registerCont
 
 const router = express.Router()
 
-router.route("/login").post(loginController)
+router.route("/login").get(loginController)
 
 router.route("/register").post(registerController)
 

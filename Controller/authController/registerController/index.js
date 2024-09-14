@@ -18,7 +18,7 @@ const registerController = async (req, res) =>
                     )
                 }
 
-            const checkQuery = "SELECT * FROM customers WHERE username = ?"
+            const checkQuery = "SELECT * FROM Users WHERE username = ?"
             const checkdata = await executeQuery(checkQuery)
             
             if(checkdata.length > 0)

@@ -4,7 +4,7 @@ const customerControllerGuard = async (req, res) => {
     try 
     {
 
-        const query = "SELECT * FROM customers WHERE DATE(create_date) BETWEEN CURDATE() - INTERVAL 1 DAY AND CURDATE()"
+        const query = "SELECT * FROM customers WHERE DATE(create_date) = curdate()"
         const data = await executeQuery(query)
 
         if(data.length === 0)
@@ -30,7 +30,8 @@ const customerControllerGuard = async (req, res) => {
             {
                 success:false,
                 data: null,
-                message: "Серверийн алдаа та дахин оролдоно уу"
+                message: "Серверийн алдаа та дахин оролдоно уу",
+                error:err
             }
         )
     }

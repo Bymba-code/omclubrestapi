@@ -118,7 +118,8 @@ const registerController = async (req, res) =>
                 {
                     success:false,
                     data: null,
-                    message: "Серверийн алдаа та дахин оролдоно уу"
+                    message: "Серверийн алдаа та дахин оролдоно уу",
+                    error: err
                 }
             )
         }

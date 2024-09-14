@@ -3,7 +3,7 @@ const { executeQuery } = require("../../../DB/index");
 const customerControllerGuard = async (req, res) => {
     try {
         // Define the query to get records for the next day
-        const query = "SELECT * FROM customers WHERE DATE(create_date) = CURDATE() + INTERVAL 1 DAY";
+        const query = "SELECT * FROM customers ";
         
         // Execute the query
         const data = await executeQuery(query);

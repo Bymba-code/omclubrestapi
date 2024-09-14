@@ -66,7 +66,7 @@ const registerController = async (req, res) =>
                         }
                     )
                 }
-            if(register)
+            if(!register)
             {
                 return res.status(403).json({
                     success:false,

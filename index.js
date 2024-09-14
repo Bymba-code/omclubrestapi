@@ -3,6 +3,8 @@ const db = require("./DB/index")
 const authRoutes = require("./Routes/authRoutes/index")
 const userRoutes = require("./Routes/userRoutes/index")
 const guardRoutes = require("./Routes/guardRoutes/index")
+const adminController = require("./Routes/adminRoutes/index")
+
 
 
 

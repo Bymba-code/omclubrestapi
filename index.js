@@ -3,7 +3,7 @@ const db = require("./DB/index")
 const authRoutes = require("./Routes/authRoutes/index")
 const userRoutes = require("./Routes/userRoutes/index")
 const guardRoutes = require("./Routes/guardRoutes/index")
-const adminController = require("./Routes/adminRoutes/index")
+const adminRoutes = require("./Routes/adminRoutes/index")
 
 
 
@@ -32,6 +32,8 @@ app.use("/api/v1", authRoutes)
 app.use("/api/v1", userRoutes)
 
 app.use("/api/v1", guardRoutes)
+
+app.use("/api/v1", adminRoutes)
 
 app.listen(3000,()=>console.log("App listening 5300"))
 

@@ -31,7 +31,7 @@ const customerControllerGuard = async (req, res) => {
                 success:false,
                 data: null,
                 message: "Серверийн алдаа та дахин оролдоно уу",
-                error:err
+                error: err
             }
         )
     }

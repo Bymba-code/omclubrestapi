@@ -4,7 +4,7 @@ const GetAllUsers = async (req, res) => {
     try 
     {
 
-        const query = "SELECT * FROM User"
+        const query = "SELECT * FROM Users"
         const data = await executeQuery(query)
 
         if(data.length === 0)

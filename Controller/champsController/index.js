@@ -6,7 +6,7 @@ const ChampionItem = async (req, res) => {
     {
         const {startDate, endDate} = req.body
 
-        const query = "SELECT username, COUNT(*) AS count FROM customers WHERE DATE(create_date) BETWEEN ? AND ? GROUP BY username"
+        const query = "SELECT username, COUNT(*) AS count FROM customers WHERE DATE(create_date) BETWEEN ? AND ? GROUP BY username ORDER BY count DESC"
 
         const data = await executeQuery(query, [startDate, endDate])
 

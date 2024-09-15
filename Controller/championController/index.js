@@ -1,4 +1,5 @@
-const {executeQuery} = require("../../../DB/index");
+const {executeQuery} = require("../../DB/index");
+
 const Champion = async (req, res) => {
     try {
         const query = "SELECT * FROM champion";

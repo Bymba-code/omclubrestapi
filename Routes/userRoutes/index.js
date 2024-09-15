@@ -13,7 +13,7 @@
 
     router.route("/champion").get(Champion)
 
-    router.route("/champs").get(ChampionItem)
+    router.route("/champs").post(ChampionItem)
 
 
     module.exports = router

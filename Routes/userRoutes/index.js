@@ -7,7 +7,7 @@
     const router = express.Router()
 
 
-    router.route("/user/customers/:user_id").get(CustomersController)
+    router.route("/user/customers/:id").get(CustomersController)
 
     router.route("/user/invite").post(Invite)
 

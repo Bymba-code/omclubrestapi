@@ -4,7 +4,8 @@ const db = mysql.createPool({
     user: "admin",
     database: "clubApp",
     password: "Jijgee030712@",
-    connectionLimit: 5
+    connectionLimit: 20, 
+    queueLimit: 0 
 });
 const executeQuery = (sql, params) => {
     return new Promise((resolve, reject) => {

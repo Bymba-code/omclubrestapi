@@ -1,4 +1,4 @@
-const { executeQuery } = require("../../../DB/index")
+const {executeQuery} = require("../../DB/index")
 
 
 const ChampionItem = async (req, res) => {

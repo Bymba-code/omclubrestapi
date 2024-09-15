@@ -1,22 +1,20 @@
-const express = require("express")
-const GetItems = require("../../Controller/customerController/GET_ALL")
-const userItem = require("../../Controller/customerController/CUSTOMERS")
-const Champion = require("../../Controller/championController")
+    const express = require("express")
+    const CustomersController = require("../../Controller/userController/Customers")
     const Invite = require("../../Controller/userController/invite")
+    const Champion = require("../../Controller/championController")
+    const ChampionItem = require("../../Controller/champsContoller")
+
+    const router = express.Router()
 
 
-
-
-
-const router = express.Router()
-
-router.route("/guard/:id").get(GetItems)
-
-router.route("/customers/:id").get(userItem)
-
-router.route("/champion").get(Champion)
+    router.route("/user/customers/:user_id").get(CustomersController)
 
     router.route("/user/invite").post(Invite)
 
+    router.route("/champion").get(Champion)
 
-module.exports = router
+    router.route("/champs").get(ChampionItem)
+
+
+    module.exports = router
+

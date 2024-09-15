@@ -1,4 +1,4 @@
-const { executeQuery } = require("../../../DB/index")
+const { executeQuery } = require("../../DB/index")
 const bcrypt = require("bcrypt")
 
 const insertChamp= async (req, res) => 

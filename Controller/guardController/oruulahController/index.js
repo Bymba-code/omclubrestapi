@@ -2,16 +2,7 @@ const { executeQuery } = require("../../../DB/index");
 
 const oruulahController = async (req, res) => {
     try {
-        const now = new Date();
-
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0'); 
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-
-    const orsonTsag = `${year}-${month}-${day} ${hours}:${minutes}`;
-        const { persons, itemId} = req.body;
+        const { persons, itemId, liveTime} = req.body;
 
         if(!itemId)
         {
@@ -45,8 +36,8 @@ const oruulahController = async (req, res) => {
         }
 
        
-        const updateQuery = `UPDATE customers SET isOrson = 1, too = ? , orsonTsag = ? WHERE id = ?`;
-        await executeQuery(updateQuery, [persons , orsonTsag,itemId]);
+        const updateQuery = `UPDATE customers SET isOrson = 1, too = ? , orsonDate = ? WHERE id = ?`;
+        await executeQuery(updateQuery, [persons ,liveTime,itemId]);
 
         return res.status(200).json({
             success: true,

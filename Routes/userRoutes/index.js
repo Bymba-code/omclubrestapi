@@ -2,7 +2,7 @@
     const CustomersController = require("../../Controller/userController/Customers")
     const Invite = require("../../Controller/userController/invite")
     const Champion = require("../../Controller/championController")
-    const ChampionItem = require("../../Controller/champsContoller")
+    const ChampionItem = require("../../Controller/champsController")
 
     const router = express.Router()
 

@@ -6,12 +6,14 @@ const tailan = async (req, res) => {
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Sheet1');
 
+        const {startDate, endDate} = req.body;
+        
         // Define headers
         const headers = ['Ажилтан', 'Оруулсан', 'Ороогүй', 'Асуудал'];
         worksheet.addRow(headers);
 
         // Fetch data from the database
-        const getData = `
+         const getData = `
             SELECT 
                 username, 
                 COUNT(CASE WHEN isOrson = 1 THEN 1 END) AS orson_count_1,
@@ -20,10 +22,12 @@ const tailan = async (req, res) => {
                 COUNT(CASE WHEN isAsuudal = 0 THEN 1 END) AS asuudal_count_0 
             FROM 
                 customers 
+            WHERE
+                create_date BETWEEN ? AND ?
             GROUP BY 
                 username;
         `;
-        const data = await executeQuery(getData);
+        const data = await executeQuery(getData, [startDate, endDate]);
 
         // Add data rows to the worksheet
         data.forEach(record => {

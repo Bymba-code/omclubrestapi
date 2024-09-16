@@ -6,20 +6,22 @@ const tailan = async (req, res) => {
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Sheet1');
 
+        const { startDate, endDate } = req.query;
+
         // Define headers
         const headers = ['Username', 'Orson Count (1)', 'Orson Count (0)', 'Asuudal Count (1)', 'Asuudal Count (0)'];
         worksheet.addRow(headers);
 
-        // Fetch data from the database
         const getData = `
             SELECT 
                 username, 
                 COUNT(CASE WHEN isOrson = 1 THEN 1 END) AS orson_count_1,
                 COUNT(CASE WHEN isOrson = 0 THEN 1 END) AS orson_count_0,
-                COUNT(CASE WHEN isAsuudal = 1 THEN 1 END) AS asuudal_count_1,
-                COUNT(CASE WHEN isAsuudal = 0 THEN 1 END) AS asuudal_count_0
+                COUNT(CASE WHEN isAsuudal = 1 THEN 1 END) AS asuudal_count_1
             FROM 
-                customers
+                customers 
+            WHERE
+                create_date BETWEEN ? AND ?
             GROUP BY 
                 username;
         `;

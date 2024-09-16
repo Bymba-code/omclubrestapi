@@ -36,6 +36,8 @@ const Delete = async (req, res) => {
         });
 
     } catch (err) {
+        // Handle unexpected errors
+        console.error("Delete operation failed:", err);
         return res.status(500).json({
             success: false,
             data: null,

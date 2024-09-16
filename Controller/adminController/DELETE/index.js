@@ -2,19 +2,18 @@ const { executeQuery } = require("../../../DB/index");
 
 const Delete = async (req, res) => {
     try {
-        const { id} = req.body;
+        const { id } = req.body;
 
-        if(!id)
-        {
-            return res.status(403).json(
-                {
-                    success:false,
-                    data: null,
-                    message: "ID байхгүй байна"
-                }
-            )
+        // Check if the ID is provided
+        if (!id) {
+            return res.status(400).json({
+                success: false,
+                data: null,
+                message: "ID байхгүй байна"
+            });
         }
 
+        // Check if the record exists
         const selectQuery = "SELECT * FROM Users WHERE id = ?";
         const records = await executeQuery(selectQuery, [id]);
 
@@ -26,27 +25,30 @@ const Delete = async (req, res) => {
             });
         }
 
-       
-        const deleteQ = DELETE FROM Users WHERE id = ?;
-        await executeQuery(deleteQ, [id]);
+        // Delete the user record
+        const deleteUserQuery = "DELETE FROM Users WHERE id = ?";
+        await executeQuery(deleteUserQuery, [id]);
 
-        const deleteRecord = 'DELETE FROM customers WHERE invited = ?'
-        const result = await executeQuery(deleteRecord, [id])
+        // Delete related customer record
+        const deleteCustomerQuery = "DELETE FROM customers WHERE invited = ?";
+        await executeQuery(deleteCustomerQuery, [id]);
 
-         return res.status(200).json({
+        // Respond with success
+        return res.status(200).json({
             success: true,
             data: null,
             message: "Амжилттай"
         });
-       
+
     } catch (err) {
+        // Handle any errors that occur during execution
         return res.status(500).json({
             success: false,
             data: null,
-            message: "Серверийн алдаа, та дахин оролдоно уу"
+            message: "Серверийн алдаа, та дахин оролдоно уу",
+            error: err.message // Include the error message for debugging
         });
     }
 };
 
 module.exports = Delete;
-is any error in my code

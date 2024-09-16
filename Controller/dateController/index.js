@@ -32,14 +32,23 @@ const insertDate = async (req, res) => {
   try {
     const { date, changeTime } = req.body;
 
+    // Log the incoming request data for debugging
+    console.log('Received data:', { date, changeTime });
+
     // Check if a date record exists
     const checkQuery = "SELECT * FROM date_negtgel LIMIT 1";
     const existingData = await executeQuery(checkQuery);
 
     if (existingData.length > 0) {
       // Update existing date record
+      console.log('Updating existing record with:', { date, changeTime });
+
       const updateQuery = "UPDATE date_negtgel SET date = ?, change_date = ? WHERE id = 1"; // Assuming ID 1, adjust as needed
-      await executeQuery(updateQuery, [date, changeTime]);
+      const result = await executeQuery(updateQuery, [date, changeTime]);
+      
+      // Log the result of the update operation
+      console.log('Update result:', result);
+
       return res.status(200).json({
         success: true,
         data: null,
@@ -47,8 +56,14 @@ const insertDate = async (req, res) => {
       });
     } else {
       // Insert new date record
+      console.log('Inserting new record with:', { date, changeTime });
+
       const insertQuery = "INSERT INTO date_negtgel (date, change_date) VALUES (?, ?)"; // Adjust column names if needed
-      await executeQuery(insertQuery, [date, changeTime]);
+      const result = await executeQuery(insertQuery, [date, changeTime]);
+
+      // Log the result of the insert operation
+      console.log('Insert result:', result);
+
       return res.status(201).json({
         success: true,
         data: null,
@@ -56,6 +71,7 @@ const insertDate = async (req, res) => {
       });
     }
   } catch (err) {
+    console.error('Error:', err); // Improved error logging
     return res.status(500).json({
       success: false,
       data: null,
@@ -64,6 +80,7 @@ const insertDate = async (req, res) => {
     });
   }
 };
+
 
 
 module.exports = {

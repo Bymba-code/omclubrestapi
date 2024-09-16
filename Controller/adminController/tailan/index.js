@@ -13,7 +13,7 @@ const tailan = async (req, res) => {
         worksheet.addRow(headers);
 
         const getData = `SELECT username, COUNT(CASE WHEN isOrson = 1 THEN 1 END) AS orson_count_1,COUNT(CASE WHEN isOrson = 0 THEN 1 END) AS orson_count_0, COUNT(CASE WHEN isAsuudal = 1 THEN 1 END) AS asuudal_count_1 FROM customers WHERE create_date BETWEEN ? AND ? GROUP BY username;`;
-        const data = await executeQuery(getData);
+        const data = await executeQuery(getData, [startDate, endDate]);
 
         // Add data rows to the worksheet
         data.forEach(record => {

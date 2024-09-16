@@ -9,7 +9,7 @@ const tailan = async (req, res) => {
         const { startDate, endDate } = req.query;
 
         // Define headers
-        const headers = ['Username', 'Orson Count (1)', 'Orson Count (0)', 'Asuudal Count (1)', 'Asuudal Count (0)'];
+        const headers = ['Ажилтан', 'Орсон', 'Ороогүй', 'Асуудал'];
         worksheet.addRow(headers);
 
         const getData = `

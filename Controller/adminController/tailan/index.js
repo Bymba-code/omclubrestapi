@@ -1,50 +1,36 @@
-const express = require('express');
 const ExcelJS = require('exceljs');
-const { executeQuery } = require('../../../DB/index');
+const { executeQuery } = require('../../../DB/index'); // Ensure this path is correct
 
-const app = express();
-const port = 3000;
-
-app.get('/tailan', async (req, res) => {
+const tailan = async (req, res) => {
     try {
-        const { startDate, endDate } = req.query;
-
-        if (!startDate || !endDate) {
-            return res.status(400).json({
-                success: false,
-                message: 'Both startDate and endDate are required.'
-            });
-        }
-
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Sheet1');
-        worksheet.addRow(['Ажилтан', 'Оруулсан', 'Ороогүй', 'Асуудал']);
 
+        // Define headers
+        const headers = ['Username', 'Orson Count (1)', 'Orson Count (0)', 'Asuudal Count (1)', 'Asuudal Count (0)'];
+        worksheet.addRow(headers);
+
+        // Fetch data from the database
         const getData = `
             SELECT 
                 username, 
                 COUNT(CASE WHEN isOrson = 1 THEN 1 END) AS orson_count_1,
                 COUNT(CASE WHEN isOrson = 0 THEN 1 END) AS orson_count_0,
-                COUNT(CASE WHEN isAsuudal = 1 THEN 1 END) AS asuudal_count_1
+                COUNT(CASE WHEN isAsuudal = 1 THEN 1 END) AS asuudal_count_1,
+                COUNT(CASE WHEN isAsuudal = 0 THEN 1 END) AS asuudal_count_0
             FROM 
-                customers 
-            WHERE
-                create_date BETWEEN ? AND ?
+                customers
             GROUP BY 
                 username;
         `;
+        const data = await executeQuery(getData);
 
-        const data = await executeQuery(getData, [startDate, endDate]);
-
+        // Add data rows to the worksheet
         data.forEach(record => {
-            worksheet.addRow([
-                record.username, 
-                record.orson_count_1, 
-                record.orson_count_0, 
-                record.asuudal_count_1
-            ]);
+            worksheet.addRow([record.username, record.orson_count_1, record.orson_count_0, record.asuudal_count_1, record.asuudal_count_0]);
         });
 
+        // Generate buffer and set response headers
         const buffer = await workbook.xlsx.writeBuffer();
 
         res.setHeader('Content-Disposition', 'attachment; filename="report.xlsx"');
@@ -58,8 +44,6 @@ app.get('/tailan', async (req, res) => {
             error: error.message
         });
     }
-});
+};
 
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-});
+module.exports = tailan;

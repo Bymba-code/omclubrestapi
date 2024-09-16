@@ -14,12 +14,7 @@ const registerController = async (req, res) => {
             role,
             create_date
         } = req.body;
-        if (!username) {
-            return res.status(403).json({
-                success: false,
-                data: null,
-                message: "Ажилтний нэвтрэх нэр хоосон байна"
-            });
+    
         }
         const checkQuery = "SELECT * FROM Users WHERE username = ?";
         const checkdata = await executeQuery(checkQuery, [username]);
@@ -30,13 +25,7 @@ const registerController = async (req, res) => {
                 message: "Ажилтаны нэр бүртгэгдсэн байна"
             });
         }
-        if (!password) {
-            return res.status(402).json({
-                success: false,
-                data: null,
-                message: "Ажилтанд өгөх ID хоосон байна"
-            });
-        }
+      
         if (!firstName) {
             return res.status(403).json({
                 success: false,
@@ -51,6 +40,26 @@ const registerController = async (req, res) => {
                 message: "Ажилтний нэр хоосон байна"
             });
         }
+        if (!username) {
+            return res.status(403).json({
+                success: false,
+                data: null,
+                message: "Ажилтний нэвтрэх нэр хоосон байна"
+            });
+          if (!password) {
+            return res.status(402).json({
+                success: false,
+                data: null,
+                message: "Ажилтаны нууц үг хоосон байна"
+            });
+        }
+           if (!register) {
+            return res.status(403).json({
+                success: false,
+                data: null,
+                message: "Ажилтний регистрийн дугаарыг оруулна уу"
+            });
+        }
         if (!role) {
             return res.status(403).json({
                 success: false,
@@ -58,13 +67,7 @@ const registerController = async (req, res) => {
                 message: "Ажилтний хандах эрхийг өгнө үү"
             });
         }
-        if (!register) {
-            return res.status(403).json({
-                success: false,
-                data: null,
-                message: "Ажилтний регистрийн дугаарыг оруулна уу"
-            });
-        }
+     
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         const query = ` INSERT INTO Users (username, password, firstName, lastName, register, phoneNumber, role, create_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?) `;

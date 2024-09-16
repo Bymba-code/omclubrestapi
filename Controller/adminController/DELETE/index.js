@@ -29,15 +29,13 @@ const Delete = async (req, res) => {
         const deleteCustomerQuery = "DELETE FROM customers WHERE invited = ?";
         await executeQuery(deleteCustomerQuery, [id]);
 
-        await executeQuery('COMMIT');
-        
         return res.status(200).json({
             success: true,
             data: null,
             message: "Амжилттай"
         });
 
-    } catch (err) {        
+    } catch (err) {
         return res.status(500).json({
             success: false,
             data: null,

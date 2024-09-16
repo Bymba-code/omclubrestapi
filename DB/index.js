@@ -7,12 +7,20 @@ const db = mysql.createPool({
     connectionLimit: 20, 
     queueLimit: 0 
 });
+
+// Using pool to execute query
 const executeQuery = async (query, params) => {
-    const connection = await mysql.createConnection({ /* your db config */ });
-    const [results] = await connection.execute(query, params);
-    await connection.end();
-    return results;
+    return new Promise((resolve, reject) => {
+        db.query(query, params, (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            resolve(results);
+        });
+    });
 };
+
+// Checking connection to the database
 const checkConnection = () => {
     return new Promise((resolve, reject) => {
         db.query('SELECT 1', (err, results) => {
@@ -25,6 +33,7 @@ const checkConnection = () => {
         });
     });
 };
+
 module.exports = {
     executeQuery,
     checkConnection

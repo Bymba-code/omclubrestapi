@@ -14,7 +14,7 @@ const registerController = async (req, res) => {
             create_date
         } = req.body;
     
-        }
+        
         const checkQuery = "SELECT * FROM Users WHERE username = ?"
         const checkdata = await executeQuery(checkQuery, [username]);
         if (checkdata.length > 0) {

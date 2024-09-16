@@ -2,14 +2,17 @@ const { executeQuery } = require("../../../DB/index");
 
 const Delete = async (req, res) => {
     try {
-        const { id } = req.body;
+        const { id} = req.body;
 
-        if (!id) {
-            return res.status(400).json({
-                success: false,
-                data: null,
-                message: "ID байхгүй байна"
-            });
+        if(!id)
+        {
+            return res.status(403).json(
+                {
+                    success:false,
+                    data: null,
+                    message: "ID байхгүй байна"
+                }
+            )
         }
 
         const selectQuery = "SELECT * FROM Users WHERE id = ?";
@@ -23,18 +26,20 @@ const Delete = async (req, res) => {
             });
         }
 
-        const deleteUserQuery = "DELETE FROM Users WHERE id = ?";
-        await executeQuery(deleteUserQuery, [id]);
+       
+        const deleteQ = DELETE FROM Users WHERE id = ?;
+        await executeQuery(deleteQ, [id]);
 
-        return res.status(200).json({
+        const deleteRecord = 'DELETE FROM customers WHERE invited = ?'
+        const result = await executeQuery(deleteRecord, [id])
+
+         return res.status(200).json({
             success: true,
             data: null,
             message: "Амжилттай"
         });
-
+       
     } catch (err) {
-        // Handle unexpected errors
-        console.error("Delete operation failed:", err);
         return res.status(500).json({
             success: false,
             data: null,
@@ -44,3 +49,4 @@ const Delete = async (req, res) => {
 };
 
 module.exports = Delete;
+is any error in my code

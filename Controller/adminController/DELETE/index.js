@@ -1,11 +1,13 @@
 const { executeQuery } = require("../../../DB/index");
 
 const Delete = async (req, res) => {
+    const connection = await executeQuery("START TRANSACTION"); // Start transaction
     try {
         const { id } = req.body;
 
         // Check if the ID is provided
         if (!id) {
+            await executeQuery("ROLLBACK"); // Rollback if no ID provided
             return res.status(400).json({
                 success: false,
                 data: null,
@@ -18,6 +20,7 @@ const Delete = async (req, res) => {
         const records = await executeQuery(selectQuery, [id]);
 
         if (records.length === 0) {
+            await executeQuery("ROLLBACK"); // Rollback if record not found
             return res.status(404).json({
                 success: false,
                 data: null,
@@ -33,6 +36,9 @@ const Delete = async (req, res) => {
         const deleteCustomerQuery = "DELETE FROM customers WHERE invited = ?";
         await executeQuery(deleteCustomerQuery, [id]);
 
+        // Commit transaction if all queries succeed
+        await executeQuery("COMMIT");
+        
         // Respond with success
         return res.status(200).json({
             success: true,
@@ -41,7 +47,8 @@ const Delete = async (req, res) => {
         });
 
     } catch (err) {
-        // Handle any errors that occur during execution
+        // Rollback transaction if an error occurs
+        await executeQuery("ROLLBACK");
         return res.status(500).json({
             success: false,
             data: null,

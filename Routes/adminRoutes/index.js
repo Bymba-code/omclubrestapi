@@ -4,7 +4,7 @@ const Delete = require("../../Controller/adminController/DELETE")
 const Customers = require("../../Controller/adminController/Customers")
 const insertChamp = require("../../Controller/addChamp")
 const tailan = require("../../Controller/adminController/tailan")
-const getDate = require("../../Controller/dateController/index.js")
+const {getDate }= require("../../Controller/dateController/index.js")
 
 const router = express.Router()
 

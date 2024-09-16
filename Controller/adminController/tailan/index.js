@@ -1,9 +1,13 @@
+const express = require('express');
 const ExcelJS = require('exceljs');
-const { executeQuery } = require('../../../DB/index'); // Ensure this path is correct
+const { executeQuery } = require('../../../DB/index');
 
-const tailan = async (req, res) => {
+const app = express();
+const port = 3000;
+
+app.get('/tailan', async (req, res) => {
     try {
-        const { startDate, endDate } = req.query; // Get startDate and endDate from query parameters
+        const { startDate, endDate } = req.query;
 
         if (!startDate || !endDate) {
             return res.status(400).json({
@@ -14,19 +18,14 @@ const tailan = async (req, res) => {
 
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Sheet1');
+        worksheet.addRow(['Ажилтан', 'Оруулсан', 'Ороогүй', 'Асуудал']);
 
-        // Define headers
-        const headers = ['Ажилтан', 'Оруулсан', 'Ороогүй', 'Асуудал'];
-        worksheet.addRow(headers);
-
-        // Fetch data from the database with date range filter
         const getData = `
             SELECT 
                 username, 
                 COUNT(CASE WHEN isOrson = 1 THEN 1 END) AS orson_count_1,
                 COUNT(CASE WHEN isOrson = 0 THEN 1 END) AS orson_count_0,
-                COUNT(CASE WHEN isAsuudal = 1 THEN 1 END) AS asuudal_count_1,
-                COUNT(CASE WHEN isAsuudal = 0 THEN 1 END) AS asuudal_count_0 
+                COUNT(CASE WHEN isAsuudal = 1 THEN 1 END) AS asuudal_count_1
             FROM 
                 customers 
             WHERE
@@ -37,7 +36,6 @@ const tailan = async (req, res) => {
 
         const data = await executeQuery(getData, [startDate, endDate]);
 
-        // Add data rows to the worksheet
         data.forEach(record => {
             worksheet.addRow([
                 record.username, 
@@ -47,7 +45,6 @@ const tailan = async (req, res) => {
             ]);
         });
 
-        // Generate buffer and set response headers
         const buffer = await workbook.xlsx.writeBuffer();
 
         res.setHeader('Content-Disposition', 'attachment; filename="report.xlsx"');
@@ -61,6 +58,8 @@ const tailan = async (req, res) => {
             error: error.message
         });
     }
-};
+});
 
-module.exports = tailan;
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+});

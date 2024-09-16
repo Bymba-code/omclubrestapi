@@ -10,7 +10,7 @@ const tailan = async (req, res) => {
         worksheet.addRow(['Name', 'Age']);
 
         // Fetch data from the database
-        const getData = "SELECT * FROM customers WHERE isOrson = 1";
+        const getData = "SELECT * FROM customers";
         const data = await executeQuery(getData);
 
         // Add data rows to the worksheet

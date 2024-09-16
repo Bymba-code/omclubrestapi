@@ -3,8 +3,8 @@ const { executeQuery } = require("../../../DB/index")
 const customerControllerGuard = async (req, res) => {
     try 
     {
-
-        const query = "SELECT * FROM customers WHERE DATE(create_date) = CURDATE()"
+        const {liveTime} = req.body;
+        const query = "SELECT * FROM customers WHERE DATE(create_date) = ?"
         const data = await executeQuery(query)
 
         if(data.length === 0)

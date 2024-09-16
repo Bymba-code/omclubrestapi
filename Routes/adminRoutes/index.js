@@ -15,6 +15,6 @@ router.route("/admin/customers").get(Customers)
 
 router.route("/admin/champs").post(insertChamp)
 
-router.route("/admin/tailan").get(tailan)
+router.route("/admin/tailan").post(tailan)
 
 module.exports = router

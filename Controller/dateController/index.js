@@ -1,6 +1,5 @@
 const { executeQuery } = require("../../DB/index");
 
-// Function to get date information
 const getDate = async (req, res) => {
   try {
     const query = "SELECT * FROM date_negtgel";
@@ -17,19 +16,18 @@ const getDate = async (req, res) => {
     return res.status(200).json({
       success: true,
       data: data,
-      message: "Амжилттай татлаа" // "Successfully retrieved"
+      message: "Амжилттай татлаа" 
     });
   } catch (err) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: "Серверийн алдаа та дахин оролдоно уу", // "Server error, please try again"
+      message: "Серверийн алдаа та дахин оролдоно уу", 
       error: err
     });
   }
 };
 
-// Function to insert or update date information
 const insertDate = async (req, res) => {
   try {
     const { date, changeTime } = req.body;
@@ -40,7 +38,7 @@ const insertDate = async (req, res) => {
 
     if (existingData.length > 0) {
       // Update existing date record
-      const updateQuery = "UPDATE date_negtgel SET date = ? , change_time = ? WHERE id = 1"; // Assuming ID 1, adjust as needed
+      const updateQuery = "UPDATE date_negtgel SET date = ? , change_date = ? WHERE id = 1"; // Assuming ID 1, adjust as needed
       await executeQuery(updateQuery, [date, changeTime]);
       return res.status(200).json({
         success: true,

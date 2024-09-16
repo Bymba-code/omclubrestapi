@@ -3,17 +3,24 @@ const { executeQuery } = require('../../../DB/index'); // Ensure this path is co
 
 const tailan = async (req, res) => {
     try {
+        const { startDate, endDate } = req.query; // Get startDate and endDate from query parameters
+
+        if (!startDate || !endDate) {
+            return res.status(400).json({
+                success: false,
+                message: 'Both startDate and endDate are required.'
+            });
+        }
+
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Sheet1');
 
-        const {startDate, endDate} = req.body;
-        
         // Define headers
         const headers = ['Ажилтан', 'Оруулсан', 'Ороогүй', 'Асуудал'];
         worksheet.addRow(headers);
 
-        // Fetch data from the database
-         const getData = `
+        // Fetch data from the database with date range filter
+        const getData = `
             SELECT 
                 username, 
                 COUNT(CASE WHEN isOrson = 1 THEN 1 END) AS orson_count_1,
@@ -27,6 +34,7 @@ const tailan = async (req, res) => {
             GROUP BY 
                 username;
         `;
+
         const data = await executeQuery(getData, [startDate, endDate]);
 
         // Add data rows to the worksheet

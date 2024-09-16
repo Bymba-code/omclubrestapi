@@ -41,7 +41,7 @@ const insertDate = async (req, res) => {
     if (existingData.length > 0) {
       // Update existing date record
       const updateQuery = "UPDATE date_negtgel SET date = ? , change_time = ? WHERE id = 1"; // Assuming ID 1, adjust as needed
-      await executeQuery(updateQuery, [date]);
+      await executeQuery(updateQuery, [date, changeTime]);
       return res.status(200).json({
         success: true,
         data: null,

@@ -37,6 +37,9 @@ const tailan = async (req, res) => {
 
         const data = await executeQuery(getData, [startDate, endDate]);
 
+        // Log fetched data
+        console.log('Fetched data:', data);
+
         // Add data rows to the worksheet
         data.forEach(record => {
             worksheet.addRow([
@@ -52,6 +55,9 @@ const tailan = async (req, res) => {
 
         // Encode buffer as Base64
         const base64 = buffer.toString('base64');
+
+        // Log Base64 length
+        console.log('Base64 length:', base64.length);
 
         res.json({ 
             success: true, 

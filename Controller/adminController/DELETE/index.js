@@ -26,9 +26,6 @@ const Delete = async (req, res) => {
         const deleteUserQuery = "DELETE FROM Users WHERE id = ?";
         await executeQuery(deleteUserQuery, [id]);
 
-        const deleteCustomerQuery = "DELETE FROM customers WHERE invited = ?";
-        await executeQuery(deleteCustomerQuery, [id]);
-
         return res.status(200).json({
             success: true,
             data: null,

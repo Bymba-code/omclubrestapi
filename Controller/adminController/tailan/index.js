@@ -20,9 +20,9 @@ const tailan = async (req, res) => {
         worksheet.addRow(headers);
 
         // Fetch data from the database with date range filter
-        const getData = `SELECT username, COUNT(CASE WHEN isOrson = 1 THEN 1 END) AS orson_count_1,COUNT(CASE WHEN isOrson = 0 THEN 1 END) AS orson_count_0,COUNT(CASE WHEN isAsuudal = 1 THEN 1 END) AS asuudal_count_1,COUNT(CASE WHEN isAsuudal = 0 THEN 1 END) AS asuudal_count_0 FROM customers WHERE create_date BETWEEN ? AND ? GROUP BY username`;
+        const getData = `select * from customers`;
 
-        const data = await executeQuery(getData, [startDate, endDate]);
+        const data = await executeQuery(getData);
 
         // Log fetched data
         console.log('Fetched data:', data);
@@ -31,9 +31,9 @@ const tailan = async (req, res) => {
         data.forEach(record => {
             worksheet.addRow([
                 record.username, 
-                record.orson_count_1, 
-                record.orson_count_0, 
-                record.asuudal_count_1
+                record.isAsuudal, 
+                record.isOrson, 
+                record.id
             ]);
         });
 

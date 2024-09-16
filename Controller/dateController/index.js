@@ -38,7 +38,7 @@ const insertDate = async (req, res) => {
 
     if (existingData.length > 0) {
       // Update existing date record
-      const updateQuery = "UPDATE date_negtgel SET date = ? , change_date = ? WHERE id = 1"; // Assuming ID 1, adjust as needed
+      const updateQuery = "UPDATE date_negtgel SET date = ?, change_date = ? WHERE id = 1"; // Assuming ID 1, adjust as needed
       await executeQuery(updateQuery, [date, changeTime]);
       return res.status(200).json({
         success: true,
@@ -47,8 +47,8 @@ const insertDate = async (req, res) => {
       });
     } else {
       // Insert new date record
-      const insertQuery = "INSERT INTO date_negtgel (date) VALUES (?)"; // Adjust column name
-      await executeQuery(insertQuery, [date]);
+      const insertQuery = "INSERT INTO date_negtgel (date, change_date) VALUES (?, ?)"; // Adjust column names if needed
+      await executeQuery(insertQuery, [date, changeTime]);
       return res.status(201).json({
         success: true,
         data: null,
@@ -64,6 +64,7 @@ const insertDate = async (req, res) => {
     });
   }
 };
+
 
 module.exports = {
   getDate,

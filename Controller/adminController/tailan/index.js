@@ -16,7 +16,7 @@ const tailan = async (req, res) => {
         // Add data rows to the worksheet
         data.forEach(record => {
             // Adjust based on your actual data structure
-            worksheet.addRow([record.name, record.age]); // Use actual field names
+            worksheet.addRow([record.username, record.too]); // Use actual field names
         });
 
         // Generate buffer and set response headers

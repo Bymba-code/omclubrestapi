@@ -14,3 +14,4 @@ const tailan = async (req, res) => {
     res.send(buffer);
 };
 
+module.exports = tailan

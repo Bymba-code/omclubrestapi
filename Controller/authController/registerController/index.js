@@ -1,7 +1,6 @@
-const {
-    executeQuery
-} = require("../../../DB/index");
+const {executeQuery} = require("../../../DB/index");
 const bcrypt = require("bcrypt");
+
 const registerController = async (req, res) => {
     try {
         const {
@@ -16,7 +15,7 @@ const registerController = async (req, res) => {
         } = req.body;
     
         }
-        const checkQuery = "SELECT * FROM Users WHERE username = ?";
+        const checkQuery = "SELECT * FROM Users WHERE username = ?"
         const checkdata = await executeQuery(checkQuery, [username]);
         if (checkdata.length > 0) {
             return res.status(403).json({

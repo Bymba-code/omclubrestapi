@@ -1,4 +1,4 @@
-const { executeQuery } = require("../../../DB/index");
+const { executeQuery } = require("../../DB/index");
 
 // Function to get date information
 const getDate = async (req, res) => {

@@ -1,19 +1,16 @@
-
 const { executeQuery } = require("../../../DB/index");
 
 const Delete = async (req, res) => {
+    const connection = await executeQuery('START TRANSACTION');
     try {
-        const { id} = req.body;
+        const { id } = req.body;
 
-        if(!id)
-        {
-            return res.status(403).json(
-                {
-                    success:false,
-                    data: null,
-                    message: "ID байхгүй байна"
-                }
-            )
+        if (!id) {
+            return res.status(400).json({
+                success: false,
+                data: null,
+                message: "ID байхгүй байна"
+            });
         }
 
         const selectQuery = "SELECT * FROM Users WHERE id = ?";
@@ -27,16 +24,23 @@ const Delete = async (req, res) => {
             });
         }
 
-       
-        const deleteQ = `DELETE FROM Users WHERE id = ?`;
-        await executeQuery(deleteQ, [id]);
+        const deleteUserQuery = "DELETE FROM Users WHERE id = ?";
+        await executeQuery(deleteUserQuery, [id]);
 
+        const deleteCustomerQuery = "DELETE FROM customers WHERE invited = ?";
+        await executeQuery(deleteCustomerQuery, [id]);
+
+        await executeQuery('COMMIT');
+        
         return res.status(200).json({
             success: true,
             data: null,
             message: "Амжилттай"
         });
+
     } catch (err) {
+        await executeQuery('ROLLBACK');
+        
         return res.status(500).json({
             success: false,
             data: null,

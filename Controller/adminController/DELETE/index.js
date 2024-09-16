@@ -1,7 +1,6 @@
 const { executeQuery } = require("../../../DB/index");
 
 const Delete = async (req, res) => {
-    const connection = await executeQuery('START TRANSACTION');
     try {
         const { id } = req.body;
 
@@ -38,9 +37,7 @@ const Delete = async (req, res) => {
             message: "Амжилттай"
         });
 
-    } catch (err) {
-        await executeQuery('ROLLBACK');
-        
+    } catch (err) {        
         return res.status(500).json({
             success: false,
             data: null,

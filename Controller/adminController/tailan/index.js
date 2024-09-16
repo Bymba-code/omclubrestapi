@@ -6,17 +6,33 @@ const tailan = async (req, res) => {
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Sheet1');
 
-        // Define the header row
-        worksheet.addRow(['Name', 'Age']);
+        // Define headers
+        const headers = ['Ажилтан', 'Оруулсан', 'Ороогүй', 'Асуудал'];
+        worksheet.addRow(headers);
 
         // Fetch data from the database
-        const getData = "SELECT * FROM customers";
+        const getData = `
+            SELECT 
+                username, 
+                COUNT(CASE WHEN isOrson = 1 THEN 1 END) AS orson_count_1,
+                COUNT(CASE WHEN isOrson = 0 THEN 1 END) AS orson_count_0,
+                COUNT(CASE WHEN isAsuudal = 1 THEN 1 END) AS asuudal_count_1,
+                COUNT(CASE WHEN isAsuudal = 0 THEN 1 END) AS asuudal_count_0 
+            FROM 
+                customers 
+            GROUP BY 
+                username;
+        `;
         const data = await executeQuery(getData);
 
         // Add data rows to the worksheet
         data.forEach(record => {
-            // Adjust based on your actual data structure
-            worksheet.addRow([record.username, record.too]); // Use actual field names
+            worksheet.addRow([
+                record.username, 
+                record.orson_count_1, 
+                record.orson_count_0, 
+                record.asuudal_count_1
+            ]);
         });
 
         // Generate buffer and set response headers

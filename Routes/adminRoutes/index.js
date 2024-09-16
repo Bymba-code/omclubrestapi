@@ -1,4 +1,3 @@
-const express = require("express")
 const GetAllUsers = require("../../Controller/adminController/ALL_USERS")
 const Delete = require("../../Controller/adminController/DELETE")
 const Customers = require("../../Controller/adminController/Customers")

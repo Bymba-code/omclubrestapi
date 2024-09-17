@@ -1,4 +1,4 @@
-const { executeQuery } = require("../../../DB/index");
+const { executeQuery } = require("../../DB");
 
 const getDifference = async (req, res) => {
     try {
@@ -69,7 +69,7 @@ ORDER BY
         success:true,
         data1: data1,
         data2:data2,
-        
+
     })
     
     } catch (err) {

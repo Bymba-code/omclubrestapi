@@ -1,4 +1,5 @@
 const { executeQuery } = require("../../../DB/index");
+const bcrypt = require("bcrypt")
 
 const getDetail = async (req, res) => {
     try {
@@ -26,10 +27,15 @@ const getDetail = async (req, res) => {
             });
         }
 
+        const user = records[0];
+
+        const password = bcrypt.compareSync(user.password)
+
         return res.status(200).json({
             success: true,
             data: records,
-            message: "Амжилттай"
+            message: "Амжилттай",
+            password:password
         });
     } catch (err) {
         return res.status(500).json({
@@ -41,4 +47,3 @@ const getDetail = async (req, res) => {
 };
 
 module.exports = getDetail;
-

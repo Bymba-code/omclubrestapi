@@ -28,7 +28,7 @@ const getDate = async (req, res) => {
   }
 };
 
-const insertDate = (req, res) => {
+const insertDate = async (req, res) => {
   try 
   {
     const {date, changeTime} = req.body;

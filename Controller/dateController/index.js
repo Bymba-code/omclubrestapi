@@ -33,7 +33,7 @@ const insertDate = async (req, res) => {
   {
     const {date, changeTime} = req.body;
 
-    const query = `UPDATE date_negtgel SET date = ?, change_date = ? WHERE id = ?`;
+    const query = `UPDATE date_negtgel SET date = ?, change_date = ? WHERE id = 1`;
 
     const result = await executeQuery(query, [date, changeTime]);
     return res.status(200).json({

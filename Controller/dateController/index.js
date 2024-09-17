@@ -34,5 +34,5 @@ const getDate = async (req, res) => {
 
 module.exports = {
   getDate,
-  insertDate
+
 };

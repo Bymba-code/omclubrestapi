@@ -6,6 +6,8 @@ const insertChamp = require("../../Controller/addChamp")
 // const tailan = require("../../Controller/adminController/tailan")
 const {getDate, insertDate}= require("../../Controller/dateController/index.js")
 const getDetail = require("../../Controller/adminController/DETAIL_USER")
+const getDifference = require("../../Controller/statisticController")
+
 
 
 const router = express.Router()
@@ -25,6 +27,9 @@ router.route("/admin/champs").post(insertChamp)
 router.route("/admin/date").get(getDate).post(insertDate)
 
 router.route("/admin/user").post(getDetail)
+
+router.route("/admin/stats").get(getDifference)
+
 
 
 module.exports = router

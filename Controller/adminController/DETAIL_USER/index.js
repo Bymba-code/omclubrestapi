@@ -3,13 +3,13 @@ const bcrypt = require("bcrypt");
 
 const getDetail = async (req, res) => {
     try {
-        const { username, password } = req.body; // Assume plain-text password is sent in request body
+        const { username,newPassword } = req.body; 
 
-        if (!username || !password) {
-            return res.status(403).json({
+        if (!username || !newPassword) {
+            return res.status(400).json({
                 success: false,
                 data: null,
-                message: "Ажилтаны ажиллаж буй нэр болон нууц үг шаардлагатай"
+                message: "Ажилтаны нэр, болон шинэ нууц үг шаардлагатай"
             });
         }
 
@@ -25,23 +25,16 @@ const getDetail = async (req, res) => {
         }
 
         const user = records[0];
-        const hashedPassword = user.password; // Assume hashed password is stored in 'password' field
 
-        // Compare the provided plain-text password with the stored hashed password
-        const passwordMatch = bcrypt.compareSync(password, hashedPassword);
+        const newHashedPassword = bcrypt.hashSync(newPassword, 10);
 
-        if (!passwordMatch) {
-            return res.status(401).json({
-                success: false,
-                data: null,
-                message: "Нууц үг буруу байна"
-            });
-        }
+        const updateQuery = "UPDATE Users SET password = ? WHERE username = ?";
+        await executeQuery(updateQuery, [newHashedPassword, username]);
 
         return res.status(200).json({
             success: true,
-            data: records,
-            message: "Амжилттай"
+            data: null,
+            message: "Нууц үг амжилттай солигдсон"
         });
     } catch (err) {
         return res.status(500).json({
@@ -52,4 +45,6 @@ const getDetail = async (req, res) => {
     }
 };
 
-module.exports = getDetail;
+module.exports = {
+    getDetail,
+};

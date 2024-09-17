@@ -18,5 +18,6 @@ router.route("/admin/champs").post(insertChamp)
 
 router.route("/admin/tailan").get(tailan)
 
+router.route("/admin/date").get(getDate)
 
 module.exports = router

@@ -114,6 +114,9 @@ const DetailProfile = async (req, res) => {
         ELSE 0 
     END) AS sum_too_last_15,
 
+    -- Overall sum of 'too'
+    SUM(too) AS sum_too_all_time,
+
     -- New: Sum of 'too' where isOrson = 1 for the first 15 days
     SUM(CASE 
         WHEN create_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
@@ -173,10 +176,10 @@ FROM
 WHERE
     YEAR(create_date) = YEAR(CURDATE())
     AND MONTH(create_date) = MONTH(CURDATE())
-    AND invited = ? 
+    AND invited = 37 -- Replace with actual value or ensure parameter binding is correct
 GROUP BY
     username;
-;`;
+`;
         
         const data1 = await executeQuery(detailQuery, [id]);
         const data2 = await executeQuery(statQuery, [id]); // Assuming `username` is available from data1

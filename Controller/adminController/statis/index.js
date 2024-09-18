@@ -5,16 +5,33 @@ const dataDashboard = async (req, res) => {
     {
     
 
-    const maxQuery = `SELECT
-    SUM(too) AS total_too,
-    MAX(too) AS max_too,
-    SUM(CASE WHEN isOrson = 1 THEN too ELSE 0 END) AS total_isOrson_1,
-    SUM(CASE WHEN isAsuudal = 1 THEN too ELSE 0 END) AS total_isAsuudal_1
+    const maxQuery = `WITH MaxToo AS (
+    SELECT 
+        username,
+        too
+    FROM 
+        clubApp.customers
+    WHERE 
+        YEAR(create_date) = YEAR(CURDATE())
+        AND MONTH(create_date) = MONTH(CURDATE())
+    ORDER BY 
+        too DESC
+    LIMIT 1
+)
+
+SELECT
+    username,
+    MAX(too) as max_too
 FROM
     clubApp.customers
 WHERE
     YEAR(create_date) = YEAR(CURDATE())
-    AND MONTH(create_date) = MONTH(CURDATE());
+    AND MONTH(create_date) = MONTH(CURDATE())
+GROUP BY
+    username
+HAVING 
+    max_too = (SELECT too FROM MaxToo);
+
 `
     const query = `SELECT
     -- Sum of 'too' for this year

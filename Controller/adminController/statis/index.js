@@ -73,7 +73,9 @@ HAVING
 
     -- Sum of 'too' for today (up to 4:00 AM next day)
     SUM(CASE 
-        WHEN create_date >= CURDATE() AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
+        WHEN create_date >= CURDATE()
+        AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
+        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
         THEN too
         ELSE 0
     END) AS sum_too_today,
@@ -82,13 +84,16 @@ HAVING
     SUM(CASE 
         WHEN create_date >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
         AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
+        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
         THEN too
         ELSE 0
     END) AS sum_too_this_week,
 
     -- Sum of 'too' where isAsuudal = 1 for today
     SUM(CASE 
-        WHEN create_date >= CURDATE() AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
+        WHEN create_date >= CURDATE()
+        AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
+        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
         AND isAsuudal = 1
         THEN too
         ELSE 0
@@ -98,6 +103,7 @@ HAVING
     SUM(CASE 
         WHEN create_date >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
         AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
+        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
         AND isAsuudal = 1
         THEN too
         ELSE 0
@@ -147,7 +153,9 @@ HAVING
 
     -- Sum of 'too' where isOrson = 1 for today
     SUM(CASE 
-        WHEN create_date >= CURDATE() AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
+        WHEN create_date >= CURDATE()
+        AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
+        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
         AND isOrson = 1
         THEN too
         ELSE 0
@@ -157,6 +165,7 @@ HAVING
     SUM(CASE 
         WHEN create_date >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
         AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
+        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
         AND isOrson = 1
         THEN too
         ELSE 0
@@ -206,7 +215,9 @@ HAVING
 
     -- Sum of 'too' where isOrson = 0 for today
     SUM(CASE 
-        WHEN create_date >= CURDATE() AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
+        WHEN create_date >= CURDATE()
+        AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
+        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
         AND isOrson = 0
         THEN too
         ELSE 0
@@ -216,6 +227,7 @@ HAVING
     SUM(CASE 
         WHEN create_date >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
         AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
+        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
         AND isOrson = 0
         THEN too
         ELSE 0

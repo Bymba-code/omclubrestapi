@@ -31,20 +31,19 @@ const tailan = async (req, res) => {
 FROM 
     clubApp.customers
 WHERE 
-    create_date BETWEEN ? AND ?  -- Use parameters for safety
+    (
+        (create_date >= '2024-09-18' AND create_date < DATE_ADD('2024-09-18', INTERVAL 1 DAY) AND create_date < DATE_ADD('2024-09-18', INTERVAL 4 HOUR))
+        OR 
+        (create_date >= DATE_SUB('2024-09-18', INTERVAL 1 DAY) AND create_date < '2024-09-18')
+    )
 GROUP BY 
     username
 ORDER BY 
-    sum_too_isOrson_1 DESC;  -- Change this to any other column if needed
+    sum_too_isOrson_1 DESC;
+`;
 
-        `;
+        const data = await executeQuery(query, [startDate, endDate, endDate, startDate, endDate]);
 
-        const data = await executeQuery(getData, [startDate, endDate]);
-
-        // Log fetched data
-        console.log('Fetched data:', data);
-
-        // Add data rows to the worksheet
         data.forEach(record => {
             worksheet.addRow([
                 record.username, 

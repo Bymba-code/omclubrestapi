@@ -41,7 +41,8 @@ ORDER BY
     sum_too_isOrson_1 DESC;
 `;
 
-        const data = await executeQuery(query, [startDate, endDate, endDate, startDate, endDate]);
+       const data = await executeQuery(yourQuery, [startDate, endDate, endDate, endDate, startDate]);
+
 
         data.forEach(record => {
             worksheet.addRow([

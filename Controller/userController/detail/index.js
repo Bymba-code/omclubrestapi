@@ -116,6 +116,25 @@ const DetailProfile = async (req, res) => {
 
     -- Overall sum of 'too'
     SUM(too) AS sum_too_all_time,
+     SUM(CASE 
+        WHEN isAsuudal = 1
+        THEN too 
+        ELSE 0 
+    END) AS sum_too_isAsuudal_1_all_time,
+
+    -- Sum of 'too' where isOrson = 1 for all time
+    SUM(CASE 
+        WHEN isOrson = 1
+        THEN too 
+        ELSE 0 
+    END) AS sum_too_isOrson_1_all_time,
+
+    -- Overall sum of 'too' where isOrson = 1 and isAsuudal = 1
+    SUM(CASE 
+        WHEN isOrson = 1 AND isAsuudal = 1
+        THEN too 
+        ELSE 0 
+    END) AS sum_too_isOrson_1_and_isAsuudal_1_all_time,
 
     -- New: Sum of 'too' where isOrson = 1 for the first 15 days
     SUM(CASE 
@@ -179,7 +198,7 @@ WHERE
     AND invited = 37 -- Replace with actual value or ensure parameter binding is correct
 GROUP BY
     username;
-`;
+`
         
         const data1 = await executeQuery(detailQuery, [id]);
         const data2 = await executeQuery(statQuery, [id]); // Assuming `username` is available from data1

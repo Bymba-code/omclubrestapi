@@ -16,7 +16,7 @@ const tailan = async (req, res) => {
         const worksheet = workbook.addWorksheet('Sheet1');
 
         // Define headers
-        const headers = ['Ажилтан', 'Оруулсан', 'Ороогүй', 'Асуудал'];
+        const headers = ['Нийт','Ажилтан', 'Оруулсан', 'Ороогүй', 'Асуудал'];
         worksheet.addRow(headers);
 
         // Fetch data from the database with date range filter
@@ -48,6 +48,7 @@ ORDER BY
         data.forEach(record => {
             worksheet.addRow([
                 record.username, 
+                record.total_sum_too,
                 record.sum_too_isOrson_1,  // Sum of 'too' where isAsuudal = 1
                 record.sum_too_isOrson_0,    // Sum of 'too' where isOrson = 0
                 record.sum_too_isAsuudal_1    // Sum of 'too' where isAsuudal = 0

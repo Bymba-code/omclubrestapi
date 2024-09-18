@@ -7,6 +7,7 @@ const insertChamp = require("../../Controller/addChamp")
 const {getDate, insertDate}= require("../../Controller/dateController/index.js")
 const getDetail = require("../../Controller/adminController/DETAIL_USER")
 const getDifference = require("../../Controller/statisticController")
+const  dataDashboard = require("../../Controller/adminController/statis")
 
 
 
@@ -29,6 +30,8 @@ router.route("/admin/date").get(getDate).post(insertDate)
 router.route("/admin/user").post(getDetail)
 
 router.route("/admin/stats").get(getDifference)
+
+router.route("/admin/dashboard").get(dataDashboard)
 
 
 

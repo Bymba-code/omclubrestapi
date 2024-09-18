@@ -3,7 +3,19 @@ const { executeQuery } = require("../../../DB/index")
 const dataDashboard = async (req, res) => {
     try 
     {
+    
 
+    const maxQuery = `SELECT
+    SUM(too) AS total_too,
+    MAX(too) AS max_too,
+    SUM(CASE WHEN isOrson = 1 THEN too ELSE 0 END) AS total_isOrson_1,
+    SUM(CASE WHEN isAsuudal = 1 THEN too ELSE 0 END) AS total_isAsuudal_1
+FROM
+    clubApp.customers
+WHERE
+    YEAR(create_date) = YEAR(CURDATE())
+    AND MONTH(create_date) = MONTH(CURDATE());
+`
     const query = `SELECT
     -- Sum of 'too' for this year
     SUM(CASE 
@@ -188,9 +200,11 @@ FROM
 `;
 
       const data = await executeQuery(query)
+      const data2 = await executeQuery(maxQuery)
       return res.status(200).json({
         success:true,
         data: data,
+        data2: data2,
         message: "amjilttai"
       })
       

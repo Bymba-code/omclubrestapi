@@ -72,7 +72,7 @@ FROM
 WHERE
     YEAR(create_date) = YEAR(CURDATE())
     AND MONTH(create_date) = MONTH(CURDATE())
-    AND invited = 37
+    AND invited = ?
 GROUP BY
     username;
 `

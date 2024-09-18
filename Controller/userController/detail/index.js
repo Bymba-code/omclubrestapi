@@ -96,14 +96,30 @@ const DetailProfile = async (req, res) => {
              AND isOrson = 0
         THEN 1 
         ELSE 0 
-    END) AS count_oroogvi_last_15
+    END) AS count_oroogvi_last_15,
+
+    -- New: Sum of 'too' for the first 15 days
+    SUM(CASE 
+        WHEN create_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
+             AND create_date < DATE_FORMAT(CURDATE(), '%Y-%m-01') + INTERVAL 15 DAY
+        THEN too 
+        ELSE 0 
+    END) AS sum_too_first_15,
+
+    -- New: Sum of 'too' for the last 15 days
+    SUM(CASE 
+        WHEN create_date >= LAST_DAY(CURDATE()) - INTERVAL 14 DAY
+             AND create_date <= LAST_DAY(CURDATE())
+        THEN too 
+        ELSE 0 
+    END) AS sum_too_last_15
 
 FROM
     clubApp.customers
 WHERE
     YEAR(create_date) = YEAR(CURDATE())
     AND MONTH(create_date) = MONTH(CURDATE())
-    AND invited = 37 -- Replace with actual value or ensure parameter binding is correct
+    AND invited = ?
 GROUP BY
     username;
 `;

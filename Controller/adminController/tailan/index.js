@@ -20,7 +20,20 @@ const tailan = async (req, res) => {
         worksheet.addRow(headers);
 
         // Fetch data from the database with date range filter
-        const getData = `SELECT username, COUNT(CASE WHEN isOrson = 1 THEN 1 END) AS orson_count_1,COUNT(CASE WHEN isOrson = 0 THEN 1 END) AS orson_count_0,COUNT(CASE WHEN isAsuudal = 1 THEN 1 END) AS asuudal_count_1,COUNT(CASE WHEN isAsuudal = 0 THEN 1 END) AS asuudal_count_0 FROM customers create_date BETWEEN ? AND ? GROUP BY username`;
+        const getData = `
+        SELECT 
+            username,
+            SUM(CASE WHEN isOrson = 1 THEN too ELSE 0 END) AS sum_too_isOrson_1,
+            SUM(CASE WHEN isOrson = 0 THEN too ELSE 0 END) AS sum_too_isOrson_0,
+            SUM(CASE WHEN isAsuudal = 1 THEN too ELSE 0 END) AS sum_too_isAsuudal_1,
+            SUM(CASE WHEN isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isAsuudal_0
+        FROM 
+            clubApp.customers
+        WHERE 
+            create_date BETWEEN ? AND ?  -- Use parameters for safety
+        GROUP BY 
+            username;
+        `;
 
         const data = await executeQuery(getData, [startDate, endDate]);
 
@@ -31,9 +44,9 @@ const tailan = async (req, res) => {
         data.forEach(record => {
             worksheet.addRow([
                 record.username, 
-                record.isAsuudal, 
-                record.isOrson, 
-                record.id
+                record.sum_too_isAsuudal_1,  // Sum of 'too' where isAsuudal = 1
+                record.sum_too_isOrson_0,    // Sum of 'too' where isOrson = 0
+                record.sum_too_isAsuudal_0    // Sum of 'too' where isAsuudal = 0
             ]);
         });
 

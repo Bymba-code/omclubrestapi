@@ -21,18 +21,22 @@ const tailan = async (req, res) => {
 
         // Fetch data from the database with date range filter
         const getData = `
-        SELECT 
-            username,
-            SUM(CASE WHEN isOrson = 1 THEN too ELSE 0 END) AS sum_too_isOrson_1,
-            SUM(CASE WHEN isOrson = 0 THEN too ELSE 0 END) AS sum_too_isOrson_0,
-            SUM(CASE WHEN isAsuudal = 1 THEN too ELSE 0 END) AS sum_too_isAsuudal_1,
-            SUM(CASE WHEN isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isAsuudal_0
-        FROM 
-            clubApp.customers
-        WHERE 
-            create_date BETWEEN ? AND ?  -- Use parameters for safety
-        GROUP BY 
-            username;
+       SELECT 
+    username,
+    SUM(CASE WHEN isOrson = 1 THEN too ELSE 0 END) AS sum_too_isOrson_1,
+    SUM(CASE WHEN isOrson = 0 THEN too ELSE 0 END) AS sum_too_isOrson_0,
+    SUM(CASE WHEN isAsuudal = 1 THEN too ELSE 0 END) AS sum_too_isAsuudal_1,
+    SUM(CASE WHEN isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isAsuudal_0,
+    SUM(too) AS total_sum_too  -- Total sum of 'too'
+FROM 
+    clubApp.customers
+WHERE 
+    create_date BETWEEN ? AND ?  -- Use parameters for safety
+GROUP BY 
+    username
+ORDER BY 
+    sum_too_isOrson_1 DESC;  -- Change this to any other column if needed
+
         `;
 
         const data = await executeQuery(getData, [startDate, endDate]);

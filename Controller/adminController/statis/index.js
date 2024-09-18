@@ -184,8 +184,7 @@ const dataDashboard = async (req, res) => {
 
 FROM
     clubApp.customers
-WHERE
-    invited = 37; -- Adjust this as needed
+
 `;
 
       const data = await executeQuery(query)

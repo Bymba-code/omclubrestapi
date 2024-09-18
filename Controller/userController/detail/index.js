@@ -5,9 +5,12 @@ const DetailProfile = async (req, res) =>
     {
         try 
         {
-        const detailQUERY = "SELECT * FROM Users WHERE username = ?"
+        const {id} = req.params;
+            
+        const detailQUERY = "SELECT * FROM Users WHERE id = ?"
         const statQuery = `SELECT
     username,
+
     -- Count of records where isOrson = 1 for the first 15 days of the month
     SUM(CASE 
         WHEN create_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
@@ -69,11 +72,13 @@ FROM
 WHERE
     YEAR(create_date) = YEAR(CURDATE())
     AND MONTH(create_date) = MONTH(CURDATE())
+    AND invited = 37
 GROUP BY
-    username;`
-
-          const data1 = await executeQuery(detailQuery)
-          const data2 = await executeQuery(statQuery)
+    username;
+`
+            
+          const data1 = await executeQuery(detailQuery, [id])
+          const data2 = await executeQuery(statQuery, [id])
 
           if(data1.length === 0)
           {
@@ -85,16 +90,11 @@ GROUP BY
           }
 
           return res.status(200).json({
-            success:false,
+            success:true,
             data1: data1,
             data2: data2 
           })
           
-
-
-       
-          
-
 
         }
         catch(err)

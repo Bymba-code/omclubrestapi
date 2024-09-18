@@ -195,7 +195,7 @@ FROM
 WHERE
     YEAR(create_date) = YEAR(CURDATE())
     AND MONTH(create_date) = MONTH(CURDATE())
-    AND invited = 37 -- Replace with actual value or ensure parameter binding is correct
+    AND invited = ? -- Replace with actual value or ensure parameter binding is correct
 GROUP BY
     username;
 `

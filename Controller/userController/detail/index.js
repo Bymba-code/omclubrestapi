@@ -14,6 +14,20 @@ const DetailProfile = async (req, res) => {
     -- Count of all records for the user
     COUNT(*) AS total_records,
 
+    -- Total count of records where isOrson = 1
+    SUM(CASE 
+        WHEN isOrson = 1
+        THEN 1 
+        ELSE 0 
+    END) AS total_orson,
+
+    -- Total count of records where isAsuudal = 1
+    SUM(CASE 
+        WHEN isAsuudal = 1
+        THEN 1 
+        ELSE 0 
+    END) AS total_asuudal,
+
     -- Count of records where isOrson = 1 for the first 15 days of the month
     SUM(CASE 
         WHEN create_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
@@ -75,7 +89,7 @@ FROM
 WHERE
     YEAR(create_date) = YEAR(CURDATE())
     AND MONTH(create_date) = MONTH(CURDATE())
-    AND invited = ?
+    AND invited = 37 -- Replace with actual value or ensure parameter binding is correct
 GROUP BY
     username;
 `;

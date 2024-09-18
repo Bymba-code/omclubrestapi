@@ -25,23 +25,23 @@ const tailan = async (req, res) => {
     SUM(CASE WHEN isOrson = 1 THEN too ELSE 0 END) AS sum_too_isOrson_1,
     SUM(CASE WHEN isOrson = 0 THEN too ELSE 0 END) AS sum_too_isOrson_0,
     SUM(CASE WHEN isAsuudal = 1 THEN too ELSE 0 END) AS sum_too_isAsuudal_1,
-    SUM(CASE WHEN isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isAsuudal_0,
-    SUM(too) AS total_sum_too  -- Total sum of 'too'
+    SUM(CASE WHEN isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isAsuudal_0
 FROM 
     clubApp.customers
 WHERE 
     (
-        (create_date >= ? AND create_date < DATE_ADD(?, INTERVAL 1 DAY) AND create_date < DATE_ADD(?, INTERVAL 4 HOUR))
+        (create_date >= ? AND create_date < DATE_ADD(?, INTERVAL 1 DAY) AND HOUR(create_date) < 4)
         OR 
-        (create_date >= DATE_SUB(?, INTERVAL 1 DAY) AND create_date < ?)
+        (create_date >= DATE_SUB(?, INTERVAL 1 DAY) AND create_date < ? AND HOUR(create_date) < 4)
     )
 GROUP BY 
     username
 ORDER BY 
     sum_too_isOrson_1 DESC;
-`;
+`
 
-       const data = await executeQuery(yourQuery, [startDate, endDate, endDate, endDate, startDate]);
+       const data = await executeQuery(yourQuery, [startDate, endDate, startDate, endDate]);
+
 
 
         data.forEach(record => {

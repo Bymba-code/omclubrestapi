@@ -28,6 +28,14 @@ const DetailProfile = async (req, res) => {
         ELSE 0 
     END) AS total_asuudal,
 
+    -- Total records for the first 15 days of the month
+    SUM(CASE 
+        WHEN create_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
+             AND create_date < DATE_FORMAT(CURDATE(), '%Y-%m-01') + INTERVAL 15 DAY
+        THEN 1 
+        ELSE 0 
+    END) AS total_records_first_15,
+
     -- Count of records where isOrson = 1 for the first 15 days of the month
     SUM(CASE 
         WHEN create_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
@@ -37,7 +45,7 @@ const DetailProfile = async (req, res) => {
         ELSE 0 
     END) AS count_isOrson_1_first_15,
 
-    -- Count of records where isOrson = 1 AND isAsuudal = 1 for the first 15 days of the month
+    -- Count of records where isAsuudal = 1 for the first 15 days of the month
     SUM(CASE 
         WHEN create_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
              AND create_date < DATE_FORMAT(CURDATE(), '%Y-%m-01') + INTERVAL 15 DAY
@@ -46,7 +54,7 @@ const DetailProfile = async (req, res) => {
         ELSE 0 
     END) AS count_isAsuudal_1_first_15,
 
-    -- Count of records where isAsuudal = 0 for the first 15 days of the month
+    -- Count of records where isOrson = 0 for the first 15 days of the month
     SUM(CASE 
         WHEN create_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
              AND create_date < DATE_FORMAT(CURDATE(), '%Y-%m-01') + INTERVAL 15 DAY
@@ -54,6 +62,14 @@ const DetailProfile = async (req, res) => {
         THEN 1 
         ELSE 0 
     END) AS count_oroogvi_first_15,
+
+    -- Total records for the last 15 days of the month
+    SUM(CASE 
+        WHEN create_date >= LAST_DAY(CURDATE()) - INTERVAL 14 DAY
+             AND create_date <= LAST_DAY(CURDATE())
+        THEN 1 
+        ELSE 0 
+    END) AS total_records_last_15,
 
     -- Count of records where isOrson = 1 for the last 15 days of the month
     SUM(CASE 
@@ -64,16 +80,16 @@ const DetailProfile = async (req, res) => {
         ELSE 0 
     END) AS count_isOrson_1_last_15,
 
-    -- Count of records where isOrson = 1 AND isAsuudal = 1 for the last 15 days of the month
+    -- Count of records where isAsuudal = 1 for the last 15 days of the month
     SUM(CASE 
         WHEN create_date >= LAST_DAY(CURDATE()) - INTERVAL 14 DAY
              AND create_date <= LAST_DAY(CURDATE())
              AND isAsuudal = 1
         THEN 1 
         ELSE 0 
-    END) AS count_isAsuudal,
+    END) AS count_isAsuudal_1_last_15,
 
-    -- Count of records where isAsuudal = 0 for the last 15 days of the month
+    -- Count of records where isOrson = 0 for the last 15 days of the month
     SUM(CASE 
         WHEN create_date >= LAST_DAY(CURDATE()) - INTERVAL 14 DAY
              AND create_date <= LAST_DAY(CURDATE())
@@ -87,9 +103,10 @@ FROM
 WHERE
     YEAR(create_date) = YEAR(CURDATE())
     AND MONTH(create_date) = MONTH(CURDATE())
-    AND invited = ? --
+    AND invited = 37 -- Replace with actual value or ensure parameter binding is correct
 GROUP BY
-    username;`;
+    username;
+`;
         
         const data1 = await executeQuery(detailQuery, [id]);
         const data2 = await executeQuery(statQuery, [id]); // Assuming `username` is available from data1

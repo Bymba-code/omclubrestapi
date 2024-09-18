@@ -1,6 +1,6 @@
 const { executeQuery } = require("../../../DB/index")
 
-const GetAllUsers = async (req, res) => {
+const dataDashboard = async (req, res) => {
     try 
     {
 
@@ -208,4 +208,4 @@ WHERE
     }
 }
 
-module.exports = GetAllUsers
+module.exports =  dataDashboard

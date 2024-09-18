@@ -16,7 +16,7 @@ const tailan = async (req, res) => {
         const worksheet = workbook.addWorksheet('Sheet1');
 
         // Define headers
-        const headers = ['Нийт','Ажилтан', 'Оруулсан', 'Ороогүй', 'Асуудал'];
+        const headers = ['Ажилтан','Нийт', 'Оруулсан', 'Ороогүй', 'Асуудал'];
         worksheet.addRow(headers);
 
         // Fetch data from the database with date range filter

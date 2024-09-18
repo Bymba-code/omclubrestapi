@@ -20,8 +20,7 @@ const tailan = async (req, res) => {
         worksheet.addRow(headers);
 
         // Fetch data from the database with date range filter
-        const getData = `
-       SELECT 
+        const getData = `SELECT 
     username,
     SUM(CASE WHEN isOrson = 1 THEN too ELSE 0 END) AS sum_too_isOrson_1,
     SUM(CASE WHEN isOrson = 0 THEN too ELSE 0 END) AS sum_too_isOrson_0,
@@ -32,9 +31,9 @@ FROM
     clubApp.customers
 WHERE 
     (
-        (create_date >= '2024-09-18' AND create_date < DATE_ADD('2024-09-18', INTERVAL 1 DAY) AND create_date < DATE_ADD('2024-09-18', INTERVAL 4 HOUR))
+        (create_date >= ? AND create_date < DATE_ADD(?, INTERVAL 1 DAY) AND create_date < DATE_ADD(?, INTERVAL 4 HOUR))
         OR 
-        (create_date >= DATE_SUB('2024-09-18', INTERVAL 1 DAY) AND create_date < '2024-09-18')
+        (create_date >= DATE_SUB(?, INTERVAL 1 DAY) AND create_date < ?)
     )
 GROUP BY 
     username

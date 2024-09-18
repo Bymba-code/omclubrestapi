@@ -19,30 +19,29 @@ const tailan = async (req, res) => {
         const headers = ['Ажилтан', 'Оруулсан', 'Ороогүй', 'Асуудал'];
         worksheet.addRow(headers);
 
-        // SQL query with 4 AM cutoff logic
         const getData = `
-        SELECT 
-            username,
-            SUM(CASE WHEN isOrson = 1 THEN too ELSE 0 END) AS sum_too_isOrson_1,
-            SUM(CASE WHEN isOrson = 0 THEN too ELSE 0 END) AS sum_too_isOrson_0,
-            SUM(CASE WHEN isAsuudal = 1 THEN too ELSE 0 END) AS sum_too_isAsuudal_1,
-            SUM(CASE WHEN isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isAsuudal_0
-        FROM 
-            clubApp.customers
-        WHERE 
-            (
-                (create_date >= ? AND create_date < DATE_ADD(?, INTERVAL 1 DAY) AND HOUR(create_date) < 4)
-                OR 
-                (create_date >= DATE_SUB(?, INTERVAL 1 DAY) AND create_date < ? AND HOUR(create_date) < 4)
-            )
-        GROUP BY 
-            username
-        ORDER BY 
-            sum_too_isOrson_1 DESC;
-        `;
+    SELECT 
+        username,
+        SUM(CASE WHEN isOrson = 1 THEN too ELSE 0 END) AS sum_too_isOrson_1,
+        SUM(CASE WHEN isOrson = 0 THEN too ELSE 0 END) AS sum_too_isOrson_0,
+        SUM(CASE WHEN isAsuudal = 1 THEN too ELSE 0 END) AS sum_too_isAsuudal_1,
+        SUM(CASE WHEN isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isAsuudal_0
+    FROM 
+        clubApp.customers
+    WHERE 
+        (
+            (create_date >= ? AND create_date < DATE_ADD(?, INTERVAL 1 DAY) AND HOUR(create_date) < 4)
+            OR 
+            (create_date >= DATE_SUB(?, INTERVAL 1 DAY) AND create_date < ? AND HOUR(create_date) < 4)
+        )
+    GROUP BY 
+        username
+    ORDER BY 
+        sum_too_isOrson_1 DESC;
+`;
 
-        // Execute query with parameters
-        const data = await executeQuery(getData, [startDate, endDate, startDate, endDate]);
+// Execute query with parameters
+const data = await executeQuery(getData, [startDate, endDate, startDate, endDate]);
 
         // Log fetched data
         console.log('Fetched data:', data);

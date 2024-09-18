@@ -98,7 +98,7 @@ const DetailProfile = async (req, res) => {
         ELSE 0 
     END) AS count_oroogvi_last_15,
 
-    -- New: Sum of 'too' for the first 15 days
+    -- Sum of 'too' for the first 15 days
     SUM(CASE 
         WHEN create_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
              AND create_date < DATE_FORMAT(CURDATE(), '%Y-%m-01') + INTERVAL 15 DAY
@@ -106,23 +106,77 @@ const DetailProfile = async (req, res) => {
         ELSE 0 
     END) AS sum_too_first_15,
 
-    -- New: Sum of 'too' for the last 15 days
+    -- Sum of 'too' for the last 15 days
     SUM(CASE 
         WHEN create_date >= LAST_DAY(CURDATE()) - INTERVAL 14 DAY
              AND create_date <= LAST_DAY(CURDATE())
         THEN too 
         ELSE 0 
-    END) AS sum_too_last_15
+    END) AS sum_too_last_15,
+
+    -- New: Sum of 'too' where isOrson = 1 for the first 15 days
+    SUM(CASE 
+        WHEN create_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
+             AND create_date < DATE_FORMAT(CURDATE(), '%Y-%m-01') + INTERVAL 15 DAY
+             AND isOrson = 1
+        THEN too 
+        ELSE 0 
+    END) AS sum_too_isOrson_1_first_15,
+
+    -- New: Sum of 'too' where isAsuudal = 1 for the first 15 days
+    SUM(CASE 
+        WHEN create_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
+             AND create_date < DATE_FORMAT(CURDATE(), '%Y-%m-01') + INTERVAL 15 DAY
+             AND isAsuudal = 1
+        THEN too 
+        ELSE 0 
+    END) AS sum_too_isAsuudal_1_first_15,
+
+    -- New: Sum of 'too' where isOrson = 0 for the first 15 days
+    SUM(CASE 
+        WHEN create_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')
+             AND create_date < DATE_FORMAT(CURDATE(), '%Y-%m-01') + INTERVAL 15 DAY
+             AND isOrson = 0
+        THEN too 
+        ELSE 0 
+    END) AS sum_too_isOrson_0_first_15,
+
+    -- New: Sum of 'too' where isOrson = 1 for the last 15 days
+    SUM(CASE 
+        WHEN create_date >= LAST_DAY(CURDATE()) - INTERVAL 14 DAY
+             AND create_date <= LAST_DAY(CURDATE())
+             AND isOrson = 1
+        THEN too 
+        ELSE 0 
+    END) AS sum_too_isOrson_1_last_15,
+
+    -- New: Sum of 'too' where isAsuudal = 1 for the last 15 days
+    SUM(CASE 
+        WHEN create_date >= LAST_DAY(CURDATE()) - INTERVAL 14 DAY
+             AND create_date <= LAST_DAY(CURDATE())
+             AND isAsuudal = 1
+        THEN too 
+        ELSE 0 
+    END) AS sum_too_isAsuudal_1_last_15,
+
+    -- New: Sum of 'too' where isOrson = 0 for the last 15 days
+    SUM(CASE 
+        WHEN create_date >= LAST_DAY(CURDATE()) - INTERVAL 14 DAY
+             AND create_date <= LAST_DAY(CURDATE())
+             AND isOrson = 0
+        THEN too 
+        ELSE 0 
+    END) AS sum_too_isOrson_0_last_15
 
 FROM
     clubApp.customers
 WHERE
     YEAR(create_date) = YEAR(CURDATE())
     AND MONTH(create_date) = MONTH(CURDATE())
-    AND invited = ?
+    AND invited = ? 
 GROUP BY
     username;
-`;
+;`;
         
         const data1 = await executeQuery(detailQuery, [id]);
         const data2 = await executeQuery(statQuery, [id]); // Assuming `username` is available from data1

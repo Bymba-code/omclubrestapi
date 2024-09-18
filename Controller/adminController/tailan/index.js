@@ -44,9 +44,9 @@ const tailan = async (req, res) => {
         data.forEach(record => {
             worksheet.addRow([
                 record.username, 
-                record.sum_too_isAsuudal_1,  // Sum of 'too' where isAsuudal = 1
+                record.sum_too_isOrson_1,  // Sum of 'too' where isAsuudal = 1
                 record.sum_too_isOrson_0,    // Sum of 'too' where isOrson = 0
-                record.sum_too_isAsuudal_0    // Sum of 'too' where isAsuudal = 0
+                record.sum_too_isAsuudal_1    // Sum of 'too' where isAsuudal = 0
             ]);
         });
 

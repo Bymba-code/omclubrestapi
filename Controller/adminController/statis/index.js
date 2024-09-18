@@ -85,6 +85,22 @@ HAVING
         ELSE 0
     END) AS sum_too_this_week,
 
+    -- Sum of 'too' where isAsuudal = 1 for today
+    SUM(CASE 
+        WHEN DATE(create_date) = CURDATE()
+        AND isAsuudal = 1
+        THEN too
+        ELSE 0
+    END) AS sum_too_isAsuudal_1_today,
+
+    -- Sum of 'too' where isAsuudal = 1 for this week
+    SUM(CASE 
+        WHEN create_date >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
+        AND isAsuudal = 1
+        THEN too
+        ELSE 0
+    END) AS sum_too_isAsuudal_1_this_week,
+
     -- Sum of 'too' where isAsuudal = 1 for this year
     SUM(CASE 
         WHEN YEAR(create_date) = YEAR(CURDATE())
@@ -127,6 +143,22 @@ HAVING
         ELSE 0
     END)) AS difference_isAsuudal_1_current_vs_prev_month,
 
+    -- Sum of 'too' where isOrson = 1 for today
+    SUM(CASE 
+        WHEN DATE(create_date) = CURDATE()
+        AND isOrson = 1
+        THEN too
+        ELSE 0
+    END) AS sum_too_isOrson_1_today,
+
+    -- Sum of 'too' where isOrson = 1 for this week
+    SUM(CASE 
+        WHEN create_date >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
+        AND isOrson = 1
+        THEN too
+        ELSE 0
+    END) AS sum_too_isOrson_1_this_week,
+
     -- Sum of 'too' where isOrson = 1 for this year
     SUM(CASE 
         WHEN YEAR(create_date) = YEAR(CURDATE())
@@ -168,6 +200,22 @@ HAVING
         THEN too
         ELSE 0
     END)) AS difference_isOrson_1_current_vs_prev_month,
+
+    -- Sum of 'too' where isOrson = 0 for today
+    SUM(CASE 
+        WHEN DATE(create_date) = CURDATE()
+        AND isOrson = 0
+        THEN too
+        ELSE 0
+    END) AS sum_too_isOrson_0_today,
+
+    -- Sum of 'too' where isOrson = 0 for this week
+    SUM(CASE 
+        WHEN create_date >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
+        AND isOrson = 0
+        THEN too
+        ELSE 0
+    END) AS sum_too_isOrson_0_this_week,
 
     -- Sum of 'too' where isOrson = 0 for this year
     SUM(CASE 
@@ -212,8 +260,7 @@ HAVING
     END)) AS difference_isOrson_0_current_vs_prev_month
 
 FROM
-    clubApp.customers
-
+    clubApp.customers;
 `;
 
       const data = await executeQuery(query)

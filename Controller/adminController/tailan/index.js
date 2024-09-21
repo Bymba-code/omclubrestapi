@@ -29,11 +29,7 @@ const tailan = async (req, res) => {
     FROM 
         clubApp.customers
     WHERE 
-        (
-            (create_date >= ? AND create_date < DATE_ADD(?, INTERVAL 1 DAY) AND HOUR(create_date) < 4)
-            OR 
-            (create_date >= DATE_SUB(?, INTERVAL 1 DAY) AND create_date < ? AND HOUR(create_date) < 4)
-        )
+        Date(create_date) between ? and ? 
     GROUP BY 
         username
     ORDER BY 
@@ -41,7 +37,7 @@ const tailan = async (req, res) => {
 `;
 
 // Execute query with parameters
-const data = await executeQuery(getData, [startDate, endDate, startDate, endDate]);
+const data = await executeQuery(getData, [startDate, endDate]);
 
         // Log fetched data
         console.log('Fetched data:', data);

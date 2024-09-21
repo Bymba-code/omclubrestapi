@@ -9,6 +9,7 @@ const getDetail = require("../../Controller/adminController/DETAIL_USER")
 const getDifference = require("../../Controller/statisticController")
 const  dataDashboard = require("../../Controller/adminController/statis")
 const getStory = require("../../Controller/adminController/storyInvite")
+const storyInvite = require("../../Controller/adminController/addStory")
 
 
 
@@ -34,7 +35,8 @@ router.route("/admin/stats").get(getDifference)
 
 router.route("/admin/dashboard").get(dataDashboard)
 
-router.route("/story").get(getStory)
+router.route("/story").get(getStory).post(storyInvite)
+
 
 
 

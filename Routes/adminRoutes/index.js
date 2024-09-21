@@ -8,6 +8,7 @@ const {getDate, insertDate}= require("../../Controller/dateController/index.js")
 const getDetail = require("../../Controller/adminController/DETAIL_USER")
 const getDifference = require("../../Controller/statisticController")
 const  dataDashboard = require("../../Controller/adminController/statis")
+const getStory = require("../../Controller/adminController/storyInvite")
 
 
 
@@ -32,6 +33,8 @@ router.route("/admin/user").post(getDetail)
 router.route("/admin/stats").get(getDifference)
 
 router.route("/admin/dashboard").get(dataDashboard)
+
+router.route("/story").get(getStory)
 
 
 

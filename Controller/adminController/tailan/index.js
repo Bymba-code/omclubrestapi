@@ -46,9 +46,9 @@ const data = await executeQuery(getData, [startDate, endDate]);
         data.forEach(record => {
             worksheet.addRow([
                 record.username, 
-                record.sum_too_isAsuudal_1, 
-                record.sum_too_isAsuudal_0, 
-                record.sum_too_isOrson_1
+                record.sum_too_isOrson_1, 
+                record.sum_too_isOrson_0, 
+                record.sum_too_isAsuudal_1
             ]);
         });
 

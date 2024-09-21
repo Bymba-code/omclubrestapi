@@ -1,8 +1,8 @@
-const {executeQuery} = require("../../DB/index");
+const { executeQuery } = require("../../DB/index");
 
 const Champion = async (req, res) => {
     try {
-        const query = "SELECT * FROM champion";
+        const query = "SELECT * FROM champion ORDER BY endDate DESC";
         const data = await executeQuery(query);
         return res.status(200).json({
             success: true,
@@ -17,4 +17,5 @@ const Champion = async (req, res) => {
         });
     }
 };
+
 module.exports = Champion;

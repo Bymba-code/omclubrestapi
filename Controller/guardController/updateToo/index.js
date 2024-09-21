@@ -2,7 +2,7 @@ const { executeQuery } = require("../../../DB/index");
 
 const updateToo = async (req, res) => {
     try {
-        const {itemId} = req.body;
+        const {itemId, too} = req.body;
 
         if(!itemId)
         {
@@ -18,7 +18,7 @@ const updateToo = async (req, res) => {
 
        
         const updateQuery = `UPDATE customers SET too ? WHERE id = ?`;
-        await executeQuery(updateQuery, [itemId]);
+        await executeQuery(updateQuery, [too, itemId]);
 
         return res.status(200).json({
             success: true,

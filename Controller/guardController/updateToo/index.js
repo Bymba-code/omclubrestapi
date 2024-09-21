@@ -17,7 +17,7 @@ const updateToo = async (req, res) => {
         
 
        
-        const updateQuery = `UPDATE customers SET too ? WHERE id = ?`;
+        const updateQuery = `UPDATE customers SET too = ? WHERE id = ?`;
         await executeQuery(updateQuery, [too, itemId]);
 
         return res.status(200).json({

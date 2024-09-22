@@ -3,7 +3,7 @@ const { executeQuery } = require("../../../DB/index")
 const dataDashboard = async (req, res) => {
     try 
     {
-    const {time } = req.body
+    const {time } = req.query
 
     const maxQuery = `WITH MaxToo AS (
     SELECT 

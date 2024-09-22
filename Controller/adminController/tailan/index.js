@@ -21,19 +21,19 @@ const tailan = async (req, res) => {
 
         const getData = `
    SELECT 
-        username,
-        SUM(CASE WHEN isOrson = 1 and isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isOrson_1,
-        SUM(CASE WHEN isOrson = 0 and isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isOrson_0,
-        SUM(CASE WHEN isAsuudal = 1 and isOrson = 1 THEN too ELSE 0 END) AS sum_too_isAsuudal_1,
-    FROM 
-        customers
-    WHERE 
-        Date(create_date) between ? and ?
-        and afterNegtgelOff = 0
-    GROUP BY 
-        username
-    ORDER BY 
-        sum_too_isOrson_1 DESC
+    username,
+    SUM(CASE WHEN isOrson = 1 AND isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isOrson_1,
+    SUM(CASE WHEN isOrson = 0 AND isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isOrson_0,
+    SUM(CASE WHEN isAsuudal = 1 AND isOrson = 1 THEN too ELSE 0 END) AS sum_too_isAsuudal_1
+FROM 
+    customers
+WHERE 
+    DATE(create_date) BETWEEN ? AND ?
+    AND afterNegtgelOff = 0
+GROUP BY 
+    username
+ORDER BY 
+    sum_too_isOrson_1 DESC
 `;
 
 // Execute query with parameters

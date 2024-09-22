@@ -5,7 +5,7 @@ const Invite = async (req, res) =>
     {
         try 
         {
-            const {id, too, cod, create_date, orsonDate, username} = req.body;
+            const {id, too, cod, create_date, orsonDate, username, afterNegtgelOff, today} = req.body;
 
 
             if(!id)
@@ -19,8 +19,8 @@ const Invite = async (req, res) =>
                     )
                 }
 
-            const checkQuery = "SELECT * FROM customers WHERE cod = ?"
-            const checkdata = await executeQuery(checkQuery, [cod])
+            const checkQuery = "SELECT * FROM customers WHERE cod = ? and Date(create_date) = today"
+            const checkdata = await executeQuery(checkQuery, [cod, today])
             
             if(checkdata.length > 0)
             {
@@ -56,10 +56,11 @@ const Invite = async (req, res) =>
                 isAsuudal,
                 create_date,
                 date,
-                username
+                username,
+                afterNegtgelOff
             ]
 
-            const query = "INSERT INTO customers (invited,too,cod,isOrson,isAsuudal,create_date, orsonDate,username) VALUES (?)"
+            const query = "INSERT INTO customers (invited,too,cod,isOrson,isAsuudal,create_date, orsonDate,username, afterNegtgelOff) VALUES (?)"
             
             const data = await executeQuery(query, [values])
 

@@ -28,8 +28,8 @@ const tailan = async (req, res) => {
     FROM 
         clubApp.customers
     WHERE 
-        Date(create_date) between '2024-09-22' and '2024-09-22'
-        and afterNegtgelOff = 1
+        Date(create_date) between ? and ?
+        and afterNegtgelOff = 0
     GROUP BY 
         username
     ORDER BY 

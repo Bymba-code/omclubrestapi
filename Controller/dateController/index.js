@@ -76,10 +76,35 @@ const negtgelNeeh = async (req, res) => {
   }
 }
 
+const negtgelHaah = async (req, res) => {
+  try 
+  {
+    const query = 'UPDATE date_negtgel SET isNegtgelOff = 1 WHERE id = 1';
+
+    const result = await executeQuery(query);
+    return res.status(200).json({
+      success: true,
+      data: null,
+      message: "Амжилттай шинэчиллээ" // "Successfully updated"
+    });
+  }
+  catch(err)
+  {
+     return res.status(500).json({
+      success: false,
+      data: null,
+      message: "Серверийн алдаа та дахин оролдоно уу", 
+      error: err
+    });
+  }
+}
+
+
 
 
 module.exports = {
   getDate,
   insertDate,
-  negtgelNeeh
+  negtgelNeeh,
+  negtgelHaah
 };

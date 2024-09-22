@@ -53,7 +53,23 @@ const insertDate = async (req, res) => {
     });
   }
 }
+const negtgelNeeh = async () => {
+  try 
+  {
+    const query = 'UPDATE date_negtgel SET isNegtgelOff = 0 WHERE id = 1';
 
+    const result = await executeQuery(query);
+    return res.status(200).json({
+      success: true,
+      data: null,
+      message: "Амжилттай шинэчиллээ" // "Successfully updated"
+    });
+  }
+  catch(err)
+  {
+    
+  }
+}
 
 
 

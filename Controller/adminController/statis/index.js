@@ -3,7 +3,7 @@ const { executeQuery } = require("../../../DB/index")
 const dataDashboard = async (req, res) => {
     try 
     {
-    
+    const {time } = req.body
 
     const maxQuery = `WITH MaxToo AS (
     SELECT 
@@ -269,7 +269,7 @@ FROM
 `;
 
       const data = await executeQuery(query)
-      const data2 = await executeQuery(maxQuery)
+      const data2 = await executeQuery(maxQuery, [time, time, time, time])
       return res.status(200).json({
         success:true,
         data: data,

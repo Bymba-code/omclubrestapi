@@ -4,7 +4,7 @@ const Delete = require("../../Controller/adminController/DELETE");
 const Customers = require("../../Controller/adminController/Customers");
 const insertChamp = require("../../Controller/addChamp");
 const tailan = require("../../Controller/adminController/tailan");
-const { getDate, insertDate, negtgelNeeh } = require("../../Controller/dateController/index.js");
+const { getDate, insertDate, negtgelNeeh, negtgelHaah} = require("../../Controller/dateController/index.js");
 const getDetail = require("../../Controller/adminController/DETAIL_USER");
 const getDifference = require("../../Controller/statisticController");
 const dataDashboard = require("../../Controller/adminController/statis");
@@ -27,5 +27,6 @@ router.route("/story").get(getStory).post(storyInvite);
 router.route("/story/end").get(endEvent)
 router.route("/story/start").get(startEvent)
 router.route("/negtgelNeeh").get(negtgelNeeh)
+router.route("/negtgelHaah").get(negtgelHaah)
 
 module.exports = router; // Ensure this line ends with a semicolon

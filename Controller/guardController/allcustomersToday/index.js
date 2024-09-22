@@ -4,7 +4,11 @@ const customerControllerGuard = async (req, res) => {
     try 
     {
         const {liveTime} = req.body;
-        const query = "SELECT * FROM customers WHERE DATE(create_date) = ?"
+        const query = `SELECT * 
+                        FROM clubApp.customers 
+                        WHERE DATE(create_date) = ? 
+                        ORDER BY afterNegtgelOff ASC;
+                        `
         const data = await executeQuery(query)
 
         if(data.length === 0)

@@ -268,8 +268,8 @@ FROM
 
 `;
 
-      const data = await executeQuery(query)
-      const data2 = await executeQuery(maxQuery, [time, time, time, time])
+      const data = await executeQuery(query, , [time, time, time, time])
+      const data2 = await executeQuery(maxQuery)
       return res.status(200).json({
         success:true,
         data: data,

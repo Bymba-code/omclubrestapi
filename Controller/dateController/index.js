@@ -67,7 +67,12 @@ const negtgelNeeh = async () => {
   }
   catch(err)
   {
-    
+     return res.status(500).json({
+      success: false,
+      data: null,
+      message: "Серверийн алдаа та дахин оролдоно уу", 
+      error: err
+    });
   }
 }
 
@@ -75,5 +80,6 @@ const negtgelNeeh = async () => {
 
 module.exports = {
   getDate,
-  insertDate
+  insertDate,
+  netgtelNeeh
 };

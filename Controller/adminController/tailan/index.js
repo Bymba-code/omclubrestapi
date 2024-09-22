@@ -20,20 +20,20 @@ const tailan = async (req, res) => {
         worksheet.addRow(headers);
 
         const getData = `
-    SELECT 
+   SELECT 
         username,
-        SUM(CASE WHEN isOrson = 1 THEN too ELSE 0 END) AS sum_too_isOrson_1,
-        SUM(CASE WHEN isOrson = 0 THEN too ELSE 0 END) AS sum_too_isOrson_0,
-        SUM(CASE WHEN isAsuudal = 1 THEN too ELSE 0 END) AS sum_too_isAsuudal_1,
-        SUM(CASE WHEN isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isAsuudal_0
+        SUM(CASE WHEN isOrson = 1 and isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isOrson_1,
+        SUM(CASE WHEN isOrson = 0 and isAsuudal = 0 THEN too ELSE 0 END) AS sum_too_isOrson_0,
+        SUM(CASE WHEN isAsuudal = 1 and isOrson = 1 THEN too ELSE 0 END) AS sum_too_isAsuudal_1,
     FROM 
         clubApp.customers
     WHERE 
-        Date(create_date) between ? and ? 
+        Date(create_date) between '2024-09-22' and '2024-09-22'
+        and afterNegtgelOff = 1
     GROUP BY 
         username
     ORDER BY 
-        sum_too_isOrson_1 DESC;
+        sum_too_isOrson_1 DESC
 `;
 
 // Execute query with parameters

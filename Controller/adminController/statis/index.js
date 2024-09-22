@@ -71,29 +71,24 @@ HAVING
         ELSE 0
     END)) AS difference_too_current_vs_prev_month,
 
-    -- Sum of 'too' for today (up to 4:00 AM next day)
+    -- Sum of 'too' for today
     SUM(CASE 
-        WHEN create_date >= CURDATE()
-        AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
-        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
+        WHEN DATE(create_date) = ?
         THEN too
         ELSE 0
     END) AS sum_too_today,
 
-    -- Sum of 'too' for this week (up to 4:00 AM next day)
+    -- Sum of 'too' for this week
     SUM(CASE 
         WHEN create_date >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
-        AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
-        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
+        AND create_date < CURDATE() + INTERVAL 1 DAY
         THEN too
         ELSE 0
     END) AS sum_too_this_week,
 
     -- Sum of 'too' where isAsuudal = 1 for today
     SUM(CASE 
-        WHEN create_date >= CURDATE()
-        AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
-        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
+		WHEN DATE(create_date) = ?
         AND isAsuudal = 1
         THEN too
         ELSE 0
@@ -102,8 +97,7 @@ HAVING
     -- Sum of 'too' where isAsuudal = 1 for this week
     SUM(CASE 
         WHEN create_date >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
-        AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
-        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
+        AND create_date < CURDATE() + INTERVAL 1 DAY
         AND isAsuudal = 1
         THEN too
         ELSE 0
@@ -153,9 +147,7 @@ HAVING
 
     -- Sum of 'too' where isOrson = 1 for today
     SUM(CASE 
-        WHEN create_date >= CURDATE()
-        AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
-        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
+		WHEN DATE(create_date) = ?
         AND isOrson = 1
         THEN too
         ELSE 0
@@ -164,8 +156,7 @@ HAVING
     -- Sum of 'too' where isOrson = 1 for this week
     SUM(CASE 
         WHEN create_date >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
-        AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
-        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
+        AND create_date < CURDATE() + INTERVAL 1 DAY
         AND isOrson = 1
         THEN too
         ELSE 0
@@ -215,9 +206,7 @@ HAVING
 
     -- Sum of 'too' where isOrson = 0 for today
     SUM(CASE 
-        WHEN create_date >= CURDATE()
-        AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
-        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
+		WHEN DATE(create_date) = ?
         AND isOrson = 0
         THEN too
         ELSE 0
@@ -226,8 +215,7 @@ HAVING
     -- Sum of 'too' where isOrson = 0 for this week
     SUM(CASE 
         WHEN create_date >= DATE_SUB(CURDATE(), INTERVAL WEEKDAY(CURDATE()) DAY)
-        AND create_date < CURDATE() + INTERVAL 1 DAY + INTERVAL 4 HOUR
-        AND NOT (HOUR(create_date) >= 4 AND DATE(create_date) > CURDATE() + INTERVAL 1 DAY)
+        AND create_date < CURDATE() + INTERVAL 1 DAY
         AND isOrson = 0
         THEN too
         ELSE 0
@@ -276,7 +264,8 @@ HAVING
     END)) AS difference_isOrson_0_current_vs_prev_month
 
 FROM
-    clubApp.customers;
+    clubApp.customers
+
 `;
 
       const data = await executeQuery(query)

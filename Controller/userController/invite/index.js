@@ -19,7 +19,7 @@ const Invite = async (req, res) =>
                     )
                 }
 
-            const checkQuery = "SELECT * FROM customers WHERE cod = ? and Date(create_date) = today"
+            const checkQuery = "SELECT * FROM customers WHERE cod = ? and Date(create_date) = ?"
             const checkdata = await executeQuery(checkQuery, [cod, today])
             
             if(checkdata.length > 0)

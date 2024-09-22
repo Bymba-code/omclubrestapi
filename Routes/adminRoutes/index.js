@@ -22,7 +22,7 @@ router.route("/admin/tailan").get(tailan);
 router.route("/admin/date").get(getDate).post(insertDate);
 router.route("/admin/user").post(getDetail);
 router.route("/admin/stats").get(getDifference);
-router.route("/admin/dashboard").post(dataDashboard);
+router.route("/admin/dashboard").get(dataDashboard);
 router.route("/story").get(getStory).post(storyInvite);
 router.route("/story/end").get(endEvent)
 router.route("/story/start").get(startEvent)

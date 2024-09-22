@@ -81,5 +81,5 @@ const negtgelNeeh = async () => {
 module.exports = {
   getDate,
   insertDate,
-  netgtelNeeh
+  negtgelNeeh
 };

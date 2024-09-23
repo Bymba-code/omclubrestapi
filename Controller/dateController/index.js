@@ -16,91 +16,80 @@ const getDate = async (req, res) => {
     return res.status(200).json({
       success: true,
       data: data,
-      message: "Амжилттай татлаа" 
+      message: "Амжилттай татлаа" // "Successfully retrieved"
     });
   } catch (err) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: "Серверийн алдаа та дахин оролдоно уу", 
+      message: "Серверийн алдаа, та дахин оролдоно уу", // "Server error, please try again"
       error: err
     });
   }
 };
 
 const insertDate = async (req, res) => {
-  try 
-  {
-    const {date, changeTime} = req.body;
+  try {
+    const { date, changeTime } = req.body;
 
     const query = `UPDATE date_negtgel SET date = ?, change_date = ? WHERE id = 1`;
+    await executeQuery(query, [date, changeTime]);
 
-    const result = await executeQuery(query, [date, changeTime]);
     return res.status(200).json({
       success: true,
       data: null,
       message: "Амжилттай шинэчиллээ" // "Successfully updated"
     });
     
-  }
-  catch(err)
-  {
+  } catch (err) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: "Серверийн алдаа та дахин оролдоно уу", 
+      message: "Серверийн алдаа, та дахин оролдоно уу", // "Server error, please try again"
       error: err
     });
   }
-}
-const negtgelNeeh = async (req, res) => {
-  try 
-  {
-    const query = 'UPDATE date_negtgel SET isNegtgelOff = 0 WHERE id = 1';
+};
 
-    const result = await executeQuery(query);
+const negtgelNeeh = async (req, res) => {
+  try {
+    const query = 'UPDATE date_negtgel SET isNegtgelOff = 0 WHERE id = 1';
+    await executeQuery(query);
+
     return res.status(200).json({
       success: true,
       data: null,
       message: "Амжилттай шинэчиллээ" // "Successfully updated"
     });
-  }
-  catch(err)
-  {
-     return res.status(500).json({
+  } catch (err) {
+    return res.status(500).json({
       success: false,
       data: null,
-      message: "Серверийн алдаа та дахин оролдоно уу", 
+      message: "Серверийн алдаа, та дахин оролдоно уу", // "Server error, please try again"
       error: err
     });
   }
-}
+};
 
 const negtgelHaah = async (req, res) => {
-  try 
-  {
+  try {
     const query = 'UPDATE date_negtgel SET isNegtgelOff = 1 WHERE id = 1';
+    await executeQuery(query);
 
-    const result = await executeQuery(query);
     return res.status(200).json({
       success: true,
       data: null,
       message: "Амжилттай шинэчиллээ" // "Successfully updated"
     });
-  }
-  catch(err)
-  {
-     return res.status(500).json({
+  } catch (err) {
+    return res.status(500).json({
       success: false,
       data: null,
-      message: "Серверийн алдаа та дахин оролдоно уу", 
+      message: "Серверийн алдаа, та дахин оролдоно уу", // "Server error, please try again"
       error: err
     });
   }
-}
-
-
-
+};
 
 module.exports = {
   getDate,

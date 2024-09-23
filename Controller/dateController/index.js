@@ -70,7 +70,7 @@ const negtgelNeeh = async (req, res) => {
     });
   }
 };
-};
+
 
 const negtgelHaah= async (req, res) => {
   try {

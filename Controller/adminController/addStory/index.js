@@ -2,7 +2,7 @@ const { executeQuery } = require("../../../DB/index");
 
 const storyInvite = async (req, res) => {
     try {
-        const { too, create_date, orsonDate, username, invited } = req.body;
+        const { too, create_date, orsonDate, username, invited , isNegtgelOff} = req.body;
 
         if (!too) {
             return res.status(402).json({
@@ -25,10 +25,11 @@ const storyInvite = async (req, res) => {
             isAsuudal,
             create_date,
             date,
-            username
+            username,
+            isNegtgelOff
         ];
 
-        const query = "INSERT INTO customers (invited, too, cod, isOrson, isAsuudal, create_date, orsonDate, username) VALUES (?)";
+        const query = "INSERT INTO customers (invited, too, cod, isOrson, isAsuudal, create_date, orsonDate, username, afterNegtgelOff) VALUES (?)";
 
         const data = await executeQuery(query, [values]);
 

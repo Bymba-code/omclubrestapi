@@ -19,7 +19,7 @@
 
     router.route("/detail/:id").get(DetailProfile)
 
-    router.route("/notifications").get(getNotification).post(insertNotification)
+    router.route("/userMedegdel").get(getNotification).post(insertNotification)
 
 
     module.exports = router

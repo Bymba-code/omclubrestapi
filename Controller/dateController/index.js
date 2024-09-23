@@ -70,10 +70,11 @@ const negtgelNeeh = async (req, res) => {
     });
   }
 };
+};
 
-const negtgelNeeh = async (req, res) => {
+const negtgelHaah= async (req, res) => {
   try {
-    const query = 'UPDATE date_negtgel SET isNegtgelOff = 0 WHERE id = 1';
+    const query = 'UPDATE date_negtgel SET isNegtgelOff = 1 WHERE id = 1';
     await executeQuery(query);
 
     return res.status(200).json({

@@ -4,7 +4,7 @@
     const Champion = require("../../Controller/championController")
     const ChampionItem = require("../../Controller/champsController")
     const DetailProfile = require("../../Controller/userController/detail")
-    const {getNotifications , insertNotifications}  = require("../../Controller/notificationController")
+    const {getNotification , insertNotification}  = require("../../Controller/notificationController")
 
     const router = express.Router()
 
@@ -19,7 +19,7 @@
 
     router.route("/detail/:id").get(DetailProfile)
 
-    router.route("/notifications").get(getNotifications).post(insertNotifications)
+    router.route("/notifications").get(getNotification).post(insertNotification)
 
 
     module.exports = router

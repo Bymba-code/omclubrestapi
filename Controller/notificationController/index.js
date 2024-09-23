@@ -9,7 +9,7 @@ const getNotification = async (req, res) => {
       return res.status(404).json({
         success: false,
         data: null,
-        message: "Алдаа гарлаа" // "Error occurred"
+        message: "Алдаа гарлаа",
       });
     }
     
